@@ -98,7 +98,7 @@ class: compact
 <div class="grid grid-cols-[minmax(0,1fr)_auto_auto] gap-5 items-center">
 <div>
 
-```ts {1|2-5|6|8|all}
+```ts {1|2-6|7|9|all}
 test('valid details move on to payment', async ({ page }) => {
   await page.getByPlaceholder('e.g. John').fill('Jane');
   await page.getByPlaceholder('e.g. Doe').fill('Doe');
