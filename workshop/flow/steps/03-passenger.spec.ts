@@ -1,0 +1,25 @@
+import { test, expect } from '../../starter/helpers/fixtures';
+import { firstDepartureDate } from '../../starter/helpers/flights';
+
+test.beforeEach(async ({ page, request }) => {
+  const day = await firstDepartureDate(request);
+  await page.goto(`/flights/results?origin=BKK&destination=SIN&departure=${day}&passengers=1&cabin=economy`);
+  await page.getByRole('button', { name: /select/i }).first().click();
+  await expect(page.getByRole('heading', { name: 'Book Your Flight' })).toBeVisible();
+});
+
+test('empty form shows required errors', async ({ page }) => {
+  await page.getByRole('button', { name: /continue to payment/i }).click();
+  await expect(page.getByText('Required', { exact: true })).toHaveCount(3);
+  await expect(page.getByText('Valid email required')).toBeVisible();
+});
+
+test('valid passenger details move on to payment', async ({ page }) => {
+  await page.getByPlaceholder('e.g. John').fill('Jane');
+  await page.getByPlaceholder('e.g. Doe').fill('Doe');
+  await page.getByPlaceholder('john.doe@example.com').fill(`jane+${Date.now()}@test.com`);
+  await page.getByPlaceholder('000 000 000').fill('0800000000');
+  await page.getByRole('button', { name: /continue to payment/i }).click();
+
+  await expect(page).toHaveURL(/\/payment\/?\?ref=[A-Z0-9]{6}/);
+});

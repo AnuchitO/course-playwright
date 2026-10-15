@@ -1,0 +1,34 @@
+# Drop into your repo's .gitlab-ci.yml. Assumes the app + backend are reachable at $BASE_URL.
+stages: [e2e]
+
+e2e-smoke:
+  stage: e2e
+  image: mcr.microsoft.com/playwright:v1.60.0-noble   # browsers + OS deps preinstalled; match your @playwright/test version
+  variables:
+    BASE_URL: "https://qoomlee-staging.example.com"   # placeholder
+  script:
+    - npm ci
+    - npx playwright test --grep @smoke --project=chromium
+  artifacts:
+    when: always                  # keep the evidence even (especially) when tests fail
+    expire_in: 7 days
+    paths:
+      - playwright-report/
+      - test-results/             # traces, screenshots, videos
+    reports:
+      junit: results/junit.xml
+
+e2e-full:
+  stage: e2e
+  image: mcr.microsoft.com/playwright:v1.60.0-noble
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"   # nightly, not on every push
+  script:
+    - npm ci
+    - npx playwright test
+  artifacts:
+    when: always
+    expire_in: 14 days
+    paths: [playwright-report/, test-results/]
+    reports:
+      junit: results/junit.xml
