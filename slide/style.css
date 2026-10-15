@@ -1,0 +1,58 @@
+:root {
+  --m: #64748b;
+  --ink: #0f172a;
+  --muted: #475569;
+  --hint-bg: #f1f5f9;
+  --rule: #94a3b8;
+}
+html.dark {
+  --ink: #f1f5f9;
+  --muted: #cbd5e1;
+  --hint-bg: #1e293b;
+  --rule: #64748b;
+}
+.slidev-layout {
+  color: var(--ink);
+  padding-top: 3.2rem;
+}
+.slidev-layout h1 {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  border-left: 10px solid var(--m);
+  padding-left: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+.slidev-layout h2 { color: var(--m); }
+.slidev-layout li { line-height: 1.5; }
+.slidev-layout code:not(pre code) { color: var(--m); font-weight: 600; }
+/* large code for the back of the room */
+.slidev-code { font-size: 1.05rem !important; line-height: 1.55 !important; }
+.slidev-code-wrapper { border-left: 6px solid var(--m); border-radius: 6px; }
+.tag {
+  display: inline-block; padding: 0.1rem 0.6rem; border-radius: 999px;
+  background: var(--m); color: #fff; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.04em;
+}
+.bad { border-left: 6px solid #dc2626; }
+.good { border-left: 6px solid #16a34a; }
+.label-bad { color: #dc2626; font-weight: 800; }
+.label-good { color: #16a34a; font-weight: 800; }
+.small { font-size: 0.85rem; color: var(--muted); }
+.big-line { font-size: 1.9rem; font-weight: 700; line-height: 1.3; }
+.placeholder {
+  border: 2px dashed var(--muted); border-radius: 8px; padding: 0.6rem 1rem;
+  color: var(--muted); font-size: 0.9rem;
+}
+
+/* dark mode: code readability */
+html.dark .slidev-layout code:not(pre code) {
+  color: color-mix(in srgb, var(--m) 35%, #ffffff);
+  background: rgba(148, 163, 184, 0.18);
+}
+/* shiki themes (catppuccin-latte / catppuccin-mocha) set in setup/shiki.ts */
+/* click-step line highlighting: Slidev dims non-active lines to 0.3, which
+   vanishes on a dark background, so dim less in dark mode. */
+.slidev-code .slidev-code-dishonored { opacity: 0.35; }
+html.dark .slidev-code .slidev-code-dishonored { opacity: 0.55; }
+
+/* denser code for slides with long listings (frontmatter: class: compact) */
+.compact .slidev-code { font-size: 0.82rem !important; line-height: 1.4 !important; }
