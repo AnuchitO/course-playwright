@@ -5,15 +5,15 @@ import marksData from './marks.json'
 
 /**
  * Phone screenshot with optional animated callouts.
- * marks: [{ k: 'oneway', at: 0, line: 6, label: 'One way' }]
+ * marks: [{ k: 'oneway', at: 0, line: 6 }]
  *   k     key in marks.json for this screenshot (box in % of the screen)
  *   at    click step that reveals it (matches the code block range index: {a|b|c} -> 0,1,2)
  *   line  1-based line of the code block on this slide the arrow starts from
  *   block which code block on the slide (default 0)
  *   from  or any CSS selector (e.g. a list item) to start the arrow from
  */
-type Mark = { k: string; at?: number; line?: number; block?: number; from?: string; label?: string }
-const props = withDefaults(defineProps<{ src: string; caption?: string; height?: number; marks?: Mark[]; base?: number }>(), { height: 440, marks: () => [], base: 1 })
+type Mark = { k: string; at?: number; line?: number; block?: number; from?: string }
+const props = withDefaults(defineProps<{ src: string; caption?: string; height?: number; marks?: Mark[] }>(), { height: 440, marks: () => [] })
 
 const ctx = useSlideContext() as any
 const clicks = computed<number>(() => Number(ctx.$clicks?.value ?? ctx.$clicks ?? 0))
@@ -25,8 +25,6 @@ const items = computed(() =>
     .filter((m) => m.box && clicks.value >= (m.at ?? 0)),
 )
 // the arrow is drawn only for marks of the current click step; earlier ones stay as dimmed highlights
-const sameAt = computed(() => new Set(props.marks.map((m) => m.at ?? 0)).size === 1)
-const badge = (m: { at?: number; i: number }) => (sameAt.value ? m.i + 1 : (m.at ?? 0) + props.base)
 
 const root = ref<HTMLElement | null>(null)
 const frame = ref<HTMLElement | null>(null)
@@ -97,8 +95,6 @@ watch(items, schedule, { deep: false })
         v-for="m in items" :key="m.i" class="mark" :class="{ old: (m.at ?? 0) < clicks }"
         :style="{ left: m.box![0] + '%', top: m.box![1] + '%', width: m.box![2] + '%', height: m.box![3] + '%' }"
       >
-        <span class="badge">{{ badge(m) }}</span>
-        <span v-if="m.label" class="chip" :class="{ r: m.box![0] + m.box![2] / 2 > 55 }">{{ m.label }}</span>
       </div>
     </div>
     <figcaption v-if="caption">{{ caption }}</figcaption>
@@ -126,15 +122,6 @@ figcaption { font-size: 0.8rem; color: var(--muted); font-weight: 600; text-alig
   animation: pop 0.35s ease-out both, pulse 1.8s ease-in-out 0.4s 2;
 }
 .mark.old { opacity: 0.45; animation: none; }
-.badge {
-  position: absolute; left: -9px; top: -9px; width: 17px; height: 17px; border-radius: 50%;
-  background: var(--m); color: #fff; font-size: 10px; font-weight: 800; line-height: 17px; text-align: center;
-}
-.chip.r { left: auto; right: 6px; }
-.chip {
-  position: absolute; left: 8px; bottom: calc(100% + 3px); white-space: nowrap; max-width: 140px; overflow: hidden;
-  background: var(--m); color: #fff; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 4px;
-}
 @keyframes pop { from { opacity: 0; transform: scale(1.25); } to { opacity: 1; transform: scale(1); } }
 @keyframes pulse { 50% { box-shadow: 0 0 0 5px color-mix(in srgb, var(--m) 35%, transparent); } }
 

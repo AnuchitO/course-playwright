@@ -87,9 +87,9 @@ await page.getByRole('button', { name: /select/i }).first().click();
 await page.pause(); // remove before commit
 ```
 </div>
-<PhoneShot src="01-search-home" caption="hover → getByRole('button', { name: 'One way' })" :height="400" :base="0" :marks="[
-  { k: 'oneway', at: 1, from: 'ul li:nth-child(1)', label: 'hover me' },
-  { k: 'search', at: 2, from: 'ul li:nth-child(2)', label: 'read the locator' },
+<PhoneShot src="01-search-home" caption="hover → getByRole('button', { name: 'One way' })" :height="400" :marks="[
+  { k: 'oneway', at: 1, from: 'ul li:nth-child(1)' },
+  { k: 'search', at: 2, from: 'ul li:nth-child(2)' },
 ]" />
 </div>
 

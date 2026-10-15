@@ -38,10 +38,10 @@ await expect(page.getByText('Jane Doe')).toBeVisible();
 <div class="small" style="margin-top:0.8rem">Assert the <b>outcome</b>, not the implementation. <code>.first()</code> on QM101: it appears twice, and strict mode made us choose.</div>
 </div>
 <PhoneShot src="12-confirmation" caption="/bookings/confirmation" :height="420" :marks="[
-  { k: 'heading', at: 0, line: 1, label: 'heading' },
-  { k: 'ref', at: 1, line: 3, label: 'reference' },
-  { k: 'flight', at: 2, line: 4, label: 'QM101' },
-  { k: 'name', at: 3, line: 5, label: 'passenger' },
+  { k: 'heading', at: 0, line: 1 },
+  { k: 'ref', at: 1, line: 3 },
+  { k: 'flight', at: 2, line: 4 },
+  { k: 'name', at: 3, line: 5 },
 ]" />
 </div>
 
@@ -83,14 +83,14 @@ test('full journey @smoke', async ({ page, request }) => {
 <div class="small">We skip the search form: test 1 already covers it. Repeating it adds time, not confidence.</div>
 </div>
 <PhoneShot src="06-results" caption="results" :height="300" :marks="[
-  { k: 'select', at: 1, line: 4, label: 'Select' },
+  { k: 'select', at: 1, line: 4 },
 ]" />
 <PhoneShot src="09-booking-filled" caption="passenger" :height="300" :marks="[
   { k: 'first', at: 2, line: 7 },
   { k: 'last', at: 2, line: 8 },
   { k: 'email', at: 2, line: 10 },
-  { k: 'phone', at: 2, line: 11, label: '4 fields' },
-  { k: 'cont', at: 3, line: 12, label: 'Continue' },
+  { k: 'phone', at: 2, line: 11 },
+  { k: 'cont', at: 3, line: 12 },
 ]" />
 </div>
 
@@ -138,12 +138,12 @@ class: compact
   { k: 'name', at: 0, line: 2 },
   { k: 'number', at: 0, line: 4 },
   { k: 'expiry', at: 0, line: 5 },
-  { k: 'cvv', at: 0, line: 6, label: 'card' },
+  { k: 'cvv', at: 0, line: 6 },
 ]" />
 <PhoneShot src="12-confirmation" caption="confirmation" :height="300" :marks="[
-  { k: 'heading', at: 1, line: 12, label: 'heading' },
-  { k: 'ref', at: 2, line: 13, label: 'ref' },
-  { k: 'name', at: 3, line: 15, label: 'name' },
+  { k: 'heading', at: 1, line: 12 },
+  { k: 'ref', at: 2, line: 13 },
+  { k: 'name', at: 3, line: 15 },
 ]" />
 </div>
 

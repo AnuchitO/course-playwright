@@ -38,7 +38,7 @@ test.beforeEach(async ({ page, request }) => {
 <div class="small" style="margin-top:0.8rem">Every test in this file starts on the passenger form. Each test still gets a <b>fresh browser context</b>: no shared state.</div>
 </div>
 <PhoneShot src="07-booking-empty" caption="/bookings/new" :height="400" :marks="[
-  { k: 'heading', at: 3, line: 5, label: 'heading' },
+  { k: 'heading', at: 3, line: 5 },
 ]" />
 </div>
 
@@ -71,11 +71,11 @@ test('empty form shows required errors', async ({ page }) => {
 <div class="small" style="margin-top:0.8rem"><code>toHaveCount(3)</code>: first name, last name, phone. <code>exact: true</code> stops "Required" matching longer texts.</div>
 </div>
 <PhoneShot src="08-booking-errors" caption="submit with nothing typed" :height="400" :marks="[
-  { k: 'cont', at: 1, line: 2, label: 'Continue' },
+  { k: 'cont', at: 1, line: 2 },
   { k: 'req', at: 2, line: 3 },
   { k: 'req2', at: 2, line: 3 },
-  { k: 'req3', at: 2, line: 3, label: '3 × Required' },
-  { k: 'emailErr', at: 3, line: 4, label: 'email error' },
+  { k: 'req3', at: 2, line: 3 },
+  { k: 'emailErr', at: 3, line: 4 },
 ]" />
 </div>
 
@@ -117,11 +117,11 @@ test('valid details move on to payment', async ({ page }) => {
   { k: 'first', at: 1, line: 2 },
   { k: 'last', at: 1, line: 3 },
   { k: 'email', at: 1, line: 5 },
-  { k: 'phone', at: 1, line: 6, label: '4 fields' },
-  { k: 'cont', at: 2, line: 7, label: 'Continue' },
+  { k: 'phone', at: 1, line: 6 },
+  { k: 'cont', at: 2, line: 7 },
 ]" />
 <PhoneShot src="10-payment-empty" caption="next: payment" :height="330" :marks="[
-  { k: 'heading', at: 3, line: 9, label: '/payment?ref=…' },
+  { k: 'heading', at: 3, line: 9 },
 ]" />
 </div>
 

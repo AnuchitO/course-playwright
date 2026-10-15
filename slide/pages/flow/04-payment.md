@@ -35,14 +35,14 @@ class: compact
 | Pay | `getByRole('button', { name: /pay .* securely/i })` |
 </div>
 <PhoneShot src="11-payment-card" caption="card fields" :height="340" :marks="[
-  { k: 'name', at: 0, label: 'name' },
-  { k: 'number', at: 0, label: 'number' },
-  { k: 'expiry', at: 0, label: 'expiry' },
-  { k: 'cvv', at: 0, label: 'cvv' },
+  { k: 'name', at: 0 },
+  { k: 'number', at: 0 },
+  { k: 'expiry', at: 0 },
+  { k: 'cvv', at: 0 },
 ]" />
 <PhoneShot src="11b-payment-pay" caption="terms and pay" :height="340" :marks="[
-  { k: 'terms', at: 0, label: 'terms' },
-  { k: 'pay', at: 0, label: 'Pay' },
+  { k: 'terms', at: 0 },
+  { k: 'pay', at: 0 },
 ]" />
 </div>
 
@@ -79,14 +79,14 @@ await page.getByRole('button', { name: /pay .* securely/i }).click();
 <div class="small" style="margin-top:0.8rem"><code>.check()</code> is idempotent (and asserts the box ended up checked). <code>.fill()</code> clears then types; masked inputs show what the user sees.</div>
 </div>
 <PhoneShot src="11-payment-card" caption="card" :height="340" :marks="[
-  { k: 'name', at: 0, line: 2, label: 'name' },
-  { k: 'number', at: 1, line: 4, label: 'number' },
-  { k: 'expiry', at: 2, line: 5, label: 'expiry' },
-  { k: 'cvv', at: 3, line: 6, label: 'cvv' },
+  { k: 'name', at: 0, line: 2 },
+  { k: 'number', at: 1, line: 4 },
+  { k: 'expiry', at: 2, line: 5 },
+  { k: 'cvv', at: 3, line: 6 },
 ]" />
 <PhoneShot src="11b-payment-pay" caption="terms + pay" :height="340" :marks="[
-  { k: 'terms', at: 4, line: 7, label: 'terms' },
-  { k: 'pay', at: 5, line: 8, label: 'Pay' },
+  { k: 'terms', at: 4, line: 7 },
+  { k: 'pay', at: 5, line: 8 },
 ]" />
 </div>
 
@@ -125,10 +125,10 @@ await expect(page.getByRole('heading', { name: 'Booking Confirmed!' }))
 <div class="small">Raise the timeout <b>on the one slow assertion</b>, not globally.</div>
 </div>
 <PhoneShot src="11b-payment-pay" caption="press Pay..." :height="340" :marks="[
-  { k: 'pay', at: 0, line: 1, label: 'Pay' },
+  { k: 'pay', at: 0, line: 1 },
 ]" />
 <PhoneShot src="12-confirmation" caption="...wait up to 30 s" :height="340" :marks="[
-  { k: 'heading', at: 1, line: 4, label: 'Confirmed!' },
+  { k: 'heading', at: 1, line: 4 },
 ]" />
 </div>
 

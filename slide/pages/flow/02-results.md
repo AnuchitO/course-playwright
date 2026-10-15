@@ -60,10 +60,10 @@ What we can assert, as a user:
   &departure=2026-10-16&passengers=1&cabin=economy
 ```
 </div>
-<PhoneShot src="06-results" caption="/flights/results" :base="0" :height="410" :marks="[
-  { k: 'route', at: 1, from: 'ul li:nth-child(1)', label: 'route' },
-  { k: 'card', at: 2, from: 'ul li:nth-child(2)', label: 'QM101' },
-  { k: 'select', at: 3, from: 'ul li:nth-child(3)', label: 'Select' },
+<PhoneShot src="06-results" caption="/flights/results" :height="410" :marks="[
+  { k: 'route', at: 1, from: 'ul li:nth-child(1)' },
+  { k: 'card', at: 2, from: 'ul li:nth-child(2)' },
+  { k: 'select', at: 3, from: 'ul li:nth-child(3)' },
 ]" />
 </div>
 
@@ -102,8 +102,8 @@ test('results list QM101', async ({ page, request }) => {
 <div class="small"><code>request</code> is a built-in fixture: an HTTP client, no browser. Test data from the API keeps the test valid next week.</div>
 </div>
 <PhoneShot src="06-results" caption="what the test sees" :height="400" :marks="[
-  { k: 'card', at: 2, line: 9, label: 'QM101' },
-  { k: 'route', at: 3, line: 10, label: 'BKK → SIN' },
+  { k: 'card', at: 2, line: 9 },
+  { k: 'route', at: 3, line: 10 },
 ]" />
 </div>
 
@@ -179,10 +179,10 @@ await expect(page.getByRole('heading', { name: 'Book Your Flight' }))
 <div class="small">Two assertions on arrival: <b>URL</b> (right route) and <b>heading</b> (page really rendered).</div>
 </div>
 <PhoneShot src="06-results" caption="results" :height="330" :marks="[
-  { k: 'select', at: 0, line: 1, label: 'Select' },
+  { k: 'select', at: 0, line: 1 },
 ]" />
 <PhoneShot src="07-booking-empty" caption="booking form" :height="330" :marks="[
-  { k: 'heading', at: 2, line: 3, label: 'heading' },
+  { k: 'heading', at: 2, line: 3 },
 ]" />
 </div>
 

@@ -72,12 +72,12 @@ What a traveller does, click by click:
 
 <div class="small" style="margin-top:1rem">Every line becomes one line of test code. Write the steps in words first.</div>
 </div>
-<PhoneShot src="01-search-home" caption="/flights on a phone" :base="0" :height="420" :marks="[
-  { k: 'oneway', at: 1, from: 'ol li:nth-child(1)', label: 'One way' },
-  { k: 'from', at: 2, from: 'ol li:nth-child(2)', label: 'From' },
-  { k: 'to', at: 3, from: 'ol li:nth-child(3)', label: 'To' },
-  { k: 'date', at: 4, from: 'ol li:nth-child(4)', label: 'Date' },
-  { k: 'search', at: 5, from: 'ol li:nth-child(5)', label: 'Search' },
+<PhoneShot src="01-search-home" caption="/flights on a phone" :height="420" :marks="[
+  { k: 'oneway', at: 1, from: 'ol li:nth-child(1)' },
+  { k: 'from', at: 2, from: 'ol li:nth-child(2)' },
+  { k: 'to', at: 3, from: 'ol li:nth-child(3)' },
+  { k: 'date', at: 4, from: 'ol li:nth-child(4)' },
+  { k: 'search', at: 5, from: 'ol li:nth-child(5)' },
 ]" />
 </div>
 
@@ -115,8 +115,8 @@ test('search BKK to SIN, one way', async ({ page }) => {
 <div class="small"><code>fixtures</code> is workshop plumbing (lets the browser call our local API). Just import it.</div>
 </div>
 <PhoneShot src="01-search-home" caption="what goto('/flights') opens" :height="400" :marks="[
-  { k: 'heading', at: 2, line: 5, label: 'heading' },
-  { k: 'oneway', at: 3, line: 6, label: 'One way' },
+  { k: 'heading', at: 2, line: 5 },
+  { k: 'oneway', at: 3, line: 6 },
 ]" />
 </div>
 
@@ -155,12 +155,12 @@ await page.getByRole('button', { name: /Singapore Changi/ })
 ```
 
 <PhoneShot src="02-origin-picker" caption="tap From: bottom sheet" :height="330" :marks="[
-  { k: 'sheet', at: 0, line: 4, label: 'sheet opens' },
-  { k: 'bkk', at: 1, line: 6, label: 'BKK' },
+  { k: 'sheet', at: 0, line: 4 },
+  { k: 'bkk', at: 1, line: 6 },
 ]" />
 <PhoneShot src="03-destination-picker" caption="tap To" :height="330" :marks="[
-  { k: 'sheet', at: 2, line: 10, label: 'sheet opens' },
-  { k: 'sin', at: 3, line: 12, label: 'SIN' },
+  { k: 'sheet', at: 2, line: 10 },
+  { k: 'sin', at: 3, line: 12 },
 ]" />
 </div>
 
@@ -193,10 +193,10 @@ await page.getByText('Today', { exact: true }).click();
 <div class="small" style="margin-top:0.8rem">Why <code>.locator('visible=true')</code>? The page keeps a hidden desktop copy of the date field. <code>getByText</code> would match both and Playwright refuses to guess (strict mode). Narrow to the visible one.</div>
 </div>
 <PhoneShot src="01-search-home" caption="the date field" :height="330" :marks="[
-  { k: 'date', at: 0, line: 1, label: 'Select date' },
+  { k: 'date', at: 0, line: 1 },
 ]" />
 <PhoneShot src="04-date-picker" caption="calendar sheet" :height="330" :marks="[
-  { k: 'today', at: 1, line: 4, label: 'Today' },
+  { k: 'today', at: 1, line: 4 },
 ]" />
 </div>
 
@@ -228,10 +228,10 @@ await expect(page).toHaveURL(
 <div class="small" style="margin-top:0.8rem">The URL carries the search: <code>origin=BKK&amp;destination=SIN</code>. Asserting it proves the form sent the right data, in one line, with no flaky waiting.</div>
 </div>
 <PhoneShot src="05-search-filled" caption="form filled" :height="330" :marks="[
-  { k: 'search', at: 0, line: 1, label: 'Search Flights' },
+  { k: 'search', at: 0, line: 1 },
 ]" />
 <PhoneShot src="06-results" caption="we land here" :height="330" :marks="[
-  { k: 'route', at: 1, line: 3, label: 'BKK → SIN' },
+  { k: 'route', at: 1, line: 3 },
 ]" />
 </div>
 
