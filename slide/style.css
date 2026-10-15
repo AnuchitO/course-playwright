@@ -56,3 +56,21 @@ html.dark .slidev-code .slidev-code-dishonored { opacity: 0.55; }
 
 /* denser code for slides with long listings (frontmatter: class: compact) */
 .compact .slidev-code { font-size: 0.82rem !important; line-height: 1.4 !important; }
+
+/* fake editor autocomplete popup (module 7) */
+.ide { font-family: var(--slidev-code-font-family, monospace); font-size: 0.8rem; border-radius: 8px; overflow: hidden;
+  border: 1px solid var(--rule); box-shadow: 0 6px 18px rgba(15, 23, 42, 0.18); background: #1e1e2e; color: #cdd6f4; }
+.ide .ide-code { padding: 0.5rem 0.8rem; background: #181825; font-size: 0.95rem; }
+.ide .kw { color: #cba6f7; }
+.ide .caret { display: inline-block; width: 2px; height: 1em; background: #cdd6f4; vertical-align: text-bottom; margin-left: 1px; animation: blink 1s steps(2) infinite; }
+.ide ul.ide-list { list-style: none; margin: 0; padding: 0.25rem 0; }
+.ide ul.ide-list li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.12rem 0.8rem; line-height: 1.35; }
+.ide ul.ide-list li b { color: #89b4fa; font-weight: 600; }
+.ide + ul { margin-top: 0.8rem; }
+.ide ul.ide-list li i { color: #6c7086; font-style: normal; }
+.ide ul.ide-list li.sel { background: #313244; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* whole-block focus for slides that step through several code blocks */
+.dimmable { transition: opacity 0.3s; }
+.dimmable.dim { opacity: 0.35; }

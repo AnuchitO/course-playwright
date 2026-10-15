@@ -1,22 +1,41 @@
-import type { Page } from '@playwright/test';
+import { expect, type Page } from '@playwright/test';
 import type { Passenger } from '../data/passenger';
 
+/** Everything a traveller can do on the passenger form, and nothing else. */
 export class PassengerPage {
   constructor(private readonly page: Page) {}
 
   readonly heading = this.page.getByRole('heading', { name: 'Book Your Flight' });
-  readonly continueButton = this.page.getByRole('button', { name: /continue to payment/i });
-  readonly requiredErrors = this.page.getByText('Required', { exact: true });
-  readonly emailError = this.page.getByText('Valid email required');
 
-  async fill(p: Passenger) {
-    await this.page.getByPlaceholder('e.g. John').fill(p.firstName);
-    await this.page.getByPlaceholder('e.g. Doe').fill(p.lastName);
-    await this.page.getByPlaceholder('john.doe@example.com').fill(p.email);
-    await this.page.getByPlaceholder('000 000 000').fill(p.phone);
+  async enterFirstName(name: string) {
+    await this.page.getByPlaceholder('e.g. John').fill(name);
+  }
+  async enterLastName(name: string) {
+    await this.page.getByPlaceholder('e.g. Doe').fill(name);
+  }
+  async enterEmail(email: string) {
+    await this.page.getByPlaceholder('john.doe@example.com').fill(email);
+  }
+  async enterPhone(phone: string) {
+    await this.page.getByPlaceholder('000 000 000').fill(phone);
+  }
+  async continueToPayment() {
+    await this.page.getByRole('button', { name: /continue to payment/i }).click();
   }
 
-  async continueToPayment() {
-    await this.continueButton.click();
+  // convenience: the whole form in one call
+  async fill(p: Passenger) {
+    await this.enterFirstName(p.firstName);
+    await this.enterLastName(p.lastName);
+    await this.enterEmail(p.email);
+    await this.enterPhone(p.phone);
+  }
+
+  // a few verifies about THIS screen, named by intent
+  async expectRequiredErrors(count: number) {
+    await expect(this.page.getByText('Required', { exact: true })).toHaveCount(count);
+  }
+  async expectEmailError() {
+    await expect(this.page.getByText('Valid email required')).toBeVisible();
   }
 }
