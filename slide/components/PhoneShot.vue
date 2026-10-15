@@ -11,10 +11,13 @@ import marksData from './marks.json'
  *   line  1-based line of the code block on this slide the arrow starts from
  *   block which code block on the slide (default 0)
  *   from  or any CSS selector (e.g. a list item) to start the arrow from
+ *   edge  start the arrow at the code block's right edge instead of the end of the line
  */
-type Mark = { k: string; at?: number; line?: number; block?: number; from?: string }
+type Mark = { k: string; at?: number; line?: number; block?: number; from?: string; edge?: boolean }
 const props = withDefaults(defineProps<{ src: string; caption?: string; height?: number; marks?: Mark[] }>(), { height: 440, marks: () => [] })
 
+// works under a sub-path deploy (GitHub Pages: /course-playwright/)
+const base = import.meta.env.BASE_URL
 const ctx = useSlideContext() as any
 const clicks = computed<number>(() => Number(ctx.$clicks?.value ?? ctx.$clicks ?? 0))
 const boxes = (marksData as Record<string, Record<string, number[]>>)[props.src] ?? {}
@@ -61,13 +64,20 @@ function layoutArrows() {
     if ((m.at ?? 0) !== clicks.value || (!m.line && !m.from)) continue
     const a = anchorOf(layout, m)
     if (!a) continue
-    const sx = (a.right - rr.left) / s + 8
+    let sx = (a.right - rr.left) / s + 8
     const sy = (a.top + a.height / 2 - rr.top) / s
+    // edge: run straight along the (empty) end of the line to the code block's right edge, then curve
+    let lead = ''
+    if (m.edge) {
+      const blk = layout.querySelectorAll('.slidev-code')[m.block ?? 0]
+      if (blk) { const ex = (blk.getBoundingClientRect().right - rr.left) / s - 8; if (ex > sx) { lead = `L ${ex} ${sy} `; sx = ex } }
+    }
+    const startX = (a.right - rr.left) / s + 8
     const [bx, by, bw, bh] = m.box!
     const tx = (fr.left - rr.left) / s + (fr.width / s) * (bx / 100) - 4
     const ty = (fr.top - rr.top) / s + (fr.height / s) * ((by + bh / 2) / 100)
     const dx = Math.max(40, tx - sx)
-    out.push({ id: m.i, d: `M ${sx} ${sy} C ${sx + dx * 0.55} ${sy}, ${tx - dx * 0.55} ${ty}, ${tx - 9} ${ty}`, ax: tx, ay: ty })
+    out.push({ id: m.i, d: `M ${startX} ${sy} ${lead}C ${sx + dx * 0.55} ${sy}, ${tx - dx * 0.55} ${ty}, ${tx - 9} ${ty}`, ax: tx, ay: ty })
   }
   arrows.value = out
 }
@@ -90,7 +100,7 @@ watch(items, schedule, { deep: false })
 <template>
   <figure ref="root" class="phone-shot">
     <div ref="frame" class="frame" :style="{ height: height + 'px' }">
-      <img :src="`/img/${src}.png`" :alt="caption ?? src" />
+      <img :src="`${base}img/${src}.png`" :alt="caption ?? src" />
       <div
         v-for="m in items" :key="m.i" class="mark" :class="{ old: (m.at ?? 0) < clicks }"
         :style="{ left: m.box![0] + '%', top: m.box![1] + '%', width: m.box![2] + '%', height: m.box![3] + '%' }"

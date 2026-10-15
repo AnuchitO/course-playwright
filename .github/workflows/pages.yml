@@ -1,0 +1,51 @@
+name: Deploy slides to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths: ['slide/**', '.github/workflows/pages.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: slide
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.17.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: slide/pnpm-lock.yaml
+      # the private companion addon is a local file: path; the public build does not use it
+      - name: Drop the local-only addon dependency
+        run: node -e "const f='package.json',p=JSON.parse(require('fs').readFileSync(f));delete p.dependencies['slidev-addon-muan-companion'];require('fs').writeFileSync(f,JSON.stringify(p,null,2))"
+      - run: pnpm install --no-frozen-lockfile
+      - run: scripts/build-pages.sh "/${GITHUB_REPOSITORY#*/}/"
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: slide/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
