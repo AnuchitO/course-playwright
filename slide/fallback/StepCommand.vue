@@ -1,7 +1,7 @@
 <!--
 Public-site stand-in for the muan-companion addon's <StepCommand>: same look
-(Shiki-highlighted command, Copy and Done buttons) but no sync server. Copy
-works; Done only marks the box on this device. scripts/build-pages.sh copies it
+(Shiki-highlighted command with a Copy button) but no sync server, so there
+is no Done button. scripts/build-pages.sh copies it
 into components/ for the GitHub Pages build only; local decks (npm run dev)
 keep using the addon's version.
 -->
@@ -12,7 +12,6 @@ import { onMounted, ref, watch } from 'vue'
 const props = defineProps<{ command?: string }>()
 
 const copied = ref(false)
-const done = ref(false)
 
 // highlight with the deck's own Shiki setup (same light/dark themes as code blocks)
 const highlighted = ref('')
@@ -51,14 +50,6 @@ async function onCopy() {
       <button v-if="command" type="button" class="step-command-button" @click="onCopy">
         {{ copied ? 'Copied' : 'Copy' }}
       </button>
-      <button
-        type="button"
-        class="step-command-button step-command-button-done"
-        :disabled="done"
-        @click="done = true"
-      >
-        {{ done ? 'Done ✓' : 'Done' }}
-      </button>
     </div>
   </div>
 </template>
@@ -77,6 +68,4 @@ async function onCopy() {
   padding: 0.25em 0.75em; border-radius: 6px; border: 1px solid rgba(128, 128, 128, 0.4);
   background: transparent; color: inherit; cursor: pointer; font-size: 0.85em;
 }
-.step-command-button:disabled { cursor: default; opacity: 0.7; }
-.step-command-button-done { border-color: rgba(47, 168, 107, 0.6); }
 </style>
