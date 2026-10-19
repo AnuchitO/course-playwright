@@ -14,8 +14,8 @@ test.beforeEach(async ({ page, request }) => {
 test('empty form shows required errors', async ({ page }) => {
   const form = new PassengerPage(page);
   await form.continueToPayment();
-  await expect(page.getByText('Required', { exact: true })).toHaveCount(3);
-  await expect(page.getByText('Valid email required')).toBeVisible();
+  await form.expectRequiredErrors(3);
+  await form.expectEmailError();
 });
 
 test('email without @ is rejected', async ({ page }) => {
@@ -25,7 +25,7 @@ test('email without @ is rejected', async ({ page }) => {
   await form.enterEmail('not-an-email');
   await form.enterPhone('0800000000');
   await form.continueToPayment();
-  await expect(page.getByText('Valid email required')).toBeVisible();
+  await form.expectEmailError();
   await expect(page).toHaveURL(/\/bookings\/new/);
 });
 
