@@ -16,7 +16,7 @@ test('empty form shows required errors', async ({ page }) => {
   await expect(page.getByText('Valid email required')).toBeVisible();
 });
 
-test('valid passenger details move on to payment', async ({ page }) => {
+test('valid passenger details move on to payment and pay', async ({ page }) => {
   await page.getByPlaceholder('e.g. John').fill('Jane');
   await page.getByPlaceholder('e.g. Doe').fill('Doe');
   await page.getByPlaceholder('john.doe@example.com').fill(`jane+${Date.now()}@test.com`);
@@ -24,4 +24,7 @@ test('valid passenger details move on to payment', async ({ page }) => {
   await page.getByRole('button', { name: /continue to payment/i }).click();
 
   await expect(page).toHaveURL(/\/payment\/?\?ref=[A-Z0-9]{6}/);
+
+  // Omise TEST card. Never a real one.
+  await page.getByPlaceholder('e.g. Johnathan Doe').fill('Jane Doe');
 });
