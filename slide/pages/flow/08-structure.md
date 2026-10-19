@@ -129,7 +129,7 @@ stepId: m8-config
 
 # Config and tags: one suite, many uses
 
-```ts {1-3|5-9|all}
+```ts [workshop/flow/playwright.config.ts] {1-3|5-9|all}
 projects: [
   { name: 'mobile',  use: { ...devices['iPhone 13'], defaultBrowserType: 'chromium' } },
   { name: 'desktop', use: { ...devices['Desktop Chrome'] } }, // needs desktop locators

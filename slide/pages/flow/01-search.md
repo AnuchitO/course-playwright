@@ -21,7 +21,7 @@ stepId: m1-config
 
 # Step 0: run as a phone
 
-```ts {1,3|5-9|all}
+```ts [workshop/flow/playwright.config.ts] {1,3|5-9|all}
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
@@ -100,7 +100,7 @@ class: compact
 <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-8 items-center">
 <div>
 
-```ts {1-3|4|5|6|all}
+```ts [workshop/flow/steps/01-search.spec.ts] {1-3|4|5|6|all}
 import { test, expect } from '../../starter/helpers/fixtures';
 
 test('search BKK to SIN, one way', async ({ page }) => {

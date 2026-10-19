@@ -25,7 +25,7 @@ class: compact
 <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-8 items-center">
 <div>
 
-```ts {1|2-3|4|5-6|all}
+```ts [workshop/flow/steps/03-passenger.spec.ts] {1|2-3|4|5-6|all}
 test.beforeEach(async ({ page, request }) => {
   const day = await firstDepartureDate(request);
   await page.goto(`/flights/results?origin=BKK&destination=SIN&departure=${day}&…`);

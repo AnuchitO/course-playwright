@@ -64,7 +64,7 @@ class: compact
 <div class="grid grid-cols-[minmax(0,1fr)_auto_auto] gap-4 items-center">
 <div>
 
-```ts {1-3|4|7-11|12|all}
+```ts [workshop/flow/steps/04-full-journey.spec.ts] {1-3|4|7-11|12|all}
 test('full journey @smoke', async ({ page, request }) => {
   const day = await firstDepartureDate(request);
   await page.goto(`/flights/results?origin=BKK&destination=SIN&departure=${day}&…`);

@@ -85,7 +85,7 @@ class: compact
 <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-8 items-center">
 <div>
 
-```ts {1-2|4-7|9|10|all}
+```ts [workshop/flow/steps/02-results.spec.ts] {1-2|4-7|9|10|all}
 import { test, expect } from '../../starter/helpers/fixtures';
 import { firstDepartureDate } from '../../starter/helpers/flights';
 

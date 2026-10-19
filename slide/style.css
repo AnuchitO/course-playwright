@@ -24,7 +24,7 @@ html.dark {
 }
 .slidev-layout h2 { color: var(--m); }
 .slidev-layout li { line-height: 1.5; }
-.slidev-layout code:not(pre code) { color: var(--m); font-weight: 600; }
+.slidev-layout code:not(pre code) { color: var(--m); font-weight: 600; background: rgba(148, 163, 184, 0.18); border-radius: 4px; padding: 0.05em 0.35em; }
 /* large code for the back of the room */
 .slidev-code { font-size: 1.05rem !important; line-height: 1.55 !important; }
 .slidev-code-wrapper { border-left: 6px solid var(--m); border-radius: 6px; }
@@ -46,7 +46,6 @@ html.dark {
 /* dark mode: code readability */
 html.dark .slidev-layout code:not(pre code) {
   color: color-mix(in srgb, var(--m) 35%, #ffffff);
-  background: rgba(148, 163, 184, 0.18);
 }
 /* shiki themes (catppuccin-latte / catppuccin-mocha) set in setup/shiki.ts */
 /* click-step line highlighting: Slidev dims non-active lines to 0.3, which
@@ -76,6 +75,6 @@ html.dark .slidev-code .slidev-code-dishonored { opacity: 0.55; }
 .dimmable.dim { opacity: 0.35; }
 
 /* inline code highlighted by global-top.vue */
-.slidev-layout code.hl-inline { background: transparent; font-weight: 500; white-space: pre-wrap; }
+.slidev-layout code.hl-inline { font-weight: 500; white-space: pre-wrap; }
 .slidev-layout code.hl-inline span { color: var(--shiki-light); }
 html.dark .slidev-layout code.hl-inline span { color: var(--shiki-dark); }

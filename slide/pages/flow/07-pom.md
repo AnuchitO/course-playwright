@@ -83,7 +83,7 @@ class: compact
 <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-8 items-center">
 <div>
 
-```ts {4-6|7-9|10-12|13-15|16-18|all}
+```ts [workshop/flow/final/pages/PassengerPage.ts] {4-6|7-9|10-12|13-15|16-18|all}
 export class PassengerPage {
   constructor(private readonly page: Page) {}
 
@@ -232,7 +232,7 @@ class: compact
 <div class="grid grid-cols-[minmax(0,1fr)_auto_auto] gap-5 items-center">
 <div>
 
-```ts {4-6|7-9|10-12|13-15|16-18|19-22|all}
+```ts [workshop/flow/final/pages/PaymentPage.ts] {4-6|7-9|10-12|13-15|16-18|19-22|all}
 export class PaymentPage {
   constructor(private readonly page: Page) {}
 
@@ -398,7 +398,7 @@ await page.getByRole('button',
   { name: /continue to payment/i }).click();
 ```
 
-```ts {1-2|4-6|7|8-11|all}
+```ts [workshop/flow/final/pages/PassengerPage.ts] {1-2|4-6|7|8-11|all}
 export class PassengerPage {
   constructor(private readonly page: Page) {}
 
@@ -472,7 +472,7 @@ class: compact
 
 # Step 3: hand the pages to tests with fixtures
 
-```ts {1-5|7-10|12-18|all}
+```ts [workshop/flow/final/fixtures/index.ts] {1-5|7-10|12-18|all}
 type Fixtures = {
   passengerPage: PassengerPage;   // + search, results, payment, confirmation
   /** Already on the passenger form for the first BKK->SIN flight. */
@@ -564,7 +564,7 @@ await expect(page.getByRole('heading',
   .toBeVisible({ timeout: 30_000 });
 ```
 
-```ts {all}
+```ts [workshop/flow/final/tests/journey.spec.ts] {all}
 test('book and pay @smoke', async ({
   onPassengerForm: form, paymentPage, confirmationPage,
 }) => {
