@@ -29,4 +29,5 @@ test('email without @ is rejected', async ({ page }) => {
 test('valid passenger details move on to payment', async ({ page }) => {
   await page.getByPlaceholder('e.g. John').fill('Jane');
   await page.getByPlaceholder('e.g. Doe').fill('Doe');
+  await page.getByPlaceholder('john.doe@example.com').fill(`jane+${Date.now()}@test.com`);
 });
