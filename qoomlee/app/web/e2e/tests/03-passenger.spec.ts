@@ -39,4 +39,5 @@ test('valid passenger details move on to payment and pay', async ({ page }) => {
   await page.getByPlaceholder('e.g. Johnathan Doe').fill('Jane Doe');
   await page.getByPlaceholder('0000 0000 0000 0000').fill('4242 4242 4242 4242');
   await page.getByPlaceholder('MM/YY').fill('12/29');
+  await page.getByPlaceholder('•••').fill('123');
 });
