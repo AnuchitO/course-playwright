@@ -37,4 +37,5 @@ test('valid passenger details move on to payment and pay', async ({ page }) => {
 
   // Omise TEST card. Never a real one.
   await page.getByPlaceholder('e.g. Johnathan Doe').fill('Jane Doe');
+  await page.getByPlaceholder('0000 0000 0000 0000').fill('4242 4242 4242 4242');
 });
