@@ -1,14 +1,13 @@
 import { test, expect } from '@playwright/test';
 import { firstDepartureDate } from '../helpers/flights';
 import { PassengerPage } from '../pages/PassengerPage';
+import { ResultsPage } from '../pages/ResultsPage';
 
 test('full journey: search results to confirmation @smoke', async ({ page, request }) => {
   // 1-2. results (skip the search form: it is already covered by step 1)
-  const day = await firstDepartureDate(request);
-  await page.goto(
-    `/flights/results?origin=BKK&destination=SIN&departure=${day}&passengers=1&cabin=economy`,
-  );
-  await page.getByRole('button', { name: /select/i }).first().click();
+  const results = new ResultsPage(page);
+  await results.open(await firstDepartureDate(request));
+  await results.selectFirstFlight();
 
   // 3. passenger
   const form = new PassengerPage(page);
