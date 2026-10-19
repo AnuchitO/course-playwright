@@ -18,4 +18,5 @@ test('empty form shows required errors', async ({ page }) => {
 
 test('valid passenger details move on to payment', async ({ page }) => {
   await page.getByPlaceholder('e.g. John').fill('Jane');
+  await page.getByPlaceholder('e.g. Doe').fill('Doe');
 });
