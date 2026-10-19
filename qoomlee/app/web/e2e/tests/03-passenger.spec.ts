@@ -2,6 +2,8 @@ import { test, expect } from '@playwright/test';
 import { firstDepartureDate } from '../helpers/flights';
 import { PassengerPage } from '../pages/PassengerPage';
 import { ResultsPage } from '../pages/ResultsPage';
+import { PaymentPage } from '../pages/PaymentPage';
+import { TEST_CARD } from '../data/card';
 
 test.beforeEach(async ({ page, request }) => {
   const results = new ResultsPage(page);
@@ -38,13 +40,8 @@ test('valid passenger details move on to payment and pay', async ({ page }) => {
 
   await expect(page).toHaveURL(/\/payment\/?\?ref=[A-Z0-9]{6}/);
 
-  // Omise TEST card. Never a real one.
-  await page.getByPlaceholder('e.g. Johnathan Doe').fill('Jane Doe');
-  await page.getByPlaceholder('0000 0000 0000 0000').fill('4242 4242 4242 4242');
-  await page.getByPlaceholder('MM/YY').fill('12/29');
-  await page.getByPlaceholder('•••').fill('123');
-  await page.getByLabel(/agree to the terms/i).check();
-  await page.getByRole('button', { name: /pay .* securely/i }).click();
+  await new PaymentPage(page).payWith(TEST_CARD);
+
   // the gateway can take seconds: give THIS assertion more time
   await expect(page.getByRole('heading', { name: 'Booking Confirmed!' })).toBeVisible({ timeout: 30_000 });
 });
