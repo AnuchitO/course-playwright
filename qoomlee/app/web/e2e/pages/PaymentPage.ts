@@ -1,4 +1,5 @@
 import type { Page } from '@playwright/test';
+import type { Card } from '../data/card';
 
 /** Everything a traveller can do on the payment screen. */
 export class PaymentPage {
@@ -21,5 +22,20 @@ export class PaymentPage {
   }
   async pay() {
     await this.page.getByRole('button', { name: /pay .* securely/i }).click();
+  }
+
+  // a business step: the whole card form, not one box
+  async fillCreditCard(card: Card) {
+    await this.enterCardName(card.name);
+    await this.enterCardNumber(card.number);
+    await this.enterExpiry(card.expiry);
+    await this.enterCvv(card.cvv);
+  }
+
+  // convenience: the whole screen
+  async payWith(card: Card) {
+    await this.fillCreditCard(card);
+    await this.acceptTerms();
+    await this.pay();
   }
 }
