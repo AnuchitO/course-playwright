@@ -1,0 +1,41 @@
+import { findAirport } from "../../../flights/data/airports";
+import FlightRoute from "../../../components/FlightRoute";
+import type { Flight } from "@/lib/flight/types";
+import { formatDepartureDateTime } from "@/lib/flight/dateTime";
+
+export default function FlightSummaryCard({ flight }: { flight: Flight }) {
+  const originAirport = findAirport(flight.origin);
+  const destAirport = findAirport(flight.destination);
+
+  return (
+    <div className="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden">
+      <div className="flex justify-between items-center px-md pt-md pb-sm border-b border-outline-variant">
+        <span className="text-label-sm text-on-surface-variant">Flight Summary</span>
+        <span className="text-label-sm text-on-surface-variant font-medium">
+          {flight.flightNumber}
+        </span>
+      </div>
+
+      <div className="px-md pt-sm pb-md">
+        {/* Route */}
+        <FlightRoute
+          className="mt-sm mb-sm"
+          origin={flight.origin}
+          destination={flight.destination}
+          originLabel={originAirport?.city ?? flight.origin}
+          destinationLabel={destAirport?.city ?? flight.destination}
+        />
+
+        {/* Date / time */}
+        <div className="flex items-center gap-sm pt-sm border-t border-outline-variant">
+          <span className="material-symbols-outlined text-on-surface-variant text-[18px] shrink-0">
+            calendar_today
+          </span>
+          <span className="text-label-md text-on-surface">
+            {formatDepartureDateTime(flight.departureTime)}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
