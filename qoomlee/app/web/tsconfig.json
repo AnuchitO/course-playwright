@@ -33,5 +33,5 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules", "bombadil"]
+  "exclude": ["node_modules", "bombadil", "e2e"]
 }
