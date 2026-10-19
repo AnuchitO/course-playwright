@@ -1,13 +1,12 @@
 import { test, expect } from '@playwright/test';
 import { firstDepartureDate } from '../helpers/flights';
 import { PassengerPage } from '../pages/PassengerPage';
+import { ResultsPage } from '../pages/ResultsPage';
 
 test.beforeEach(async ({ page, request }) => {
-  const day = await firstDepartureDate(request);
-  await page.goto(
-    `/flights/results?origin=BKK&destination=SIN&departure=${day}&passengers=1&cabin=economy`,
-  );
-  await page.getByRole('button', { name: /select/i }).first().click();
+  const results = new ResultsPage(page);
+  await results.open(await firstDepartureDate(request));
+  await results.selectFirstFlight();
   await expect(new PassengerPage(page).heading).toBeVisible();
 });
 
