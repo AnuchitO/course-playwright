@@ -12,4 +12,5 @@ test('results list QM101, selecting it opens the booking form', async ({ page, r
 
   await page.getByRole('button', { name: /select/i }).first().click();
   await expect(page).toHaveURL(/\/bookings\/new/);
+  await expect(page.getByRole('heading', { name: 'Book Your Flight' })).toBeVisible();
 });
