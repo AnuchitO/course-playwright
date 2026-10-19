@@ -5,6 +5,7 @@ import { ResultsPage } from '../pages/ResultsPage';
 import { PaymentPage } from '../pages/PaymentPage';
 import { TEST_CARD } from '../data/card';
 import { ConfirmationPage } from '../pages/ConfirmationPage';
+import { aPassenger } from '../data/passenger';
 
 test.beforeEach(async ({ page, request }) => {
   const results = new ResultsPage(page);
@@ -22,10 +23,7 @@ test('empty form shows required errors', async ({ page }) => {
 
 test('email without @ is rejected', async ({ page }) => {
   const form = new PassengerPage(page);
-  await form.enterFirstName('Jane');
-  await form.enterLastName('Doe');
-  await form.enterEmail('not-an-email');
-  await form.enterPhone('0800000000');
+  await form.fill(aPassenger({ email: 'not-an-email' }));
   await form.continueToPayment();
   await form.expectEmailError();
   await expect(page).toHaveURL(/\/bookings\/new/);
@@ -33,10 +31,7 @@ test('email without @ is rejected', async ({ page }) => {
 
 test('valid passenger details move on to payment and pay', async ({ page }) => {
   const form = new PassengerPage(page);
-  await form.enterFirstName('Jane');
-  await form.enterLastName('Doe');
-  await form.enterEmail(`jane+${Date.now()}@test.com`);
-  await form.enterPhone('0800000000');
+  await form.fill(aPassenger());
   await form.continueToPayment();
 
   await expect(page).toHaveURL(/\/payment\/?\?ref=[A-Z0-9]{6}/);
