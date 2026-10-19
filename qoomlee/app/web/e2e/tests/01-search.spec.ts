@@ -10,4 +10,6 @@ test('search BKK to SIN, one way', async ({ page }) => {
   await page.getByRole('button', { name: /Suvarnabhumi/ }).click();
   await page.getByRole('button', { name: /select city or airport/i }).first().click();
   await page.getByRole('button', { name: /Singapore Changi/ }).click();
+
+  await page.getByText('Select date').locator('visible=true').click();
 });
