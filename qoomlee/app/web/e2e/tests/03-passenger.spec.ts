@@ -41,4 +41,5 @@ test('valid passenger details move on to payment and pay', async ({ page }) => {
   await page.getByPlaceholder('MM/YY').fill('12/29');
   await page.getByPlaceholder('•••').fill('123');
   await page.getByLabel(/agree to the terms/i).check();
+  await page.getByRole('button', { name: /pay .* securely/i }).click();
 });
