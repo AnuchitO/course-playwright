@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed, watchEffect } from 'vue'
+import { computed, onBeforeUnmount, onMounted, watchEffect } from 'vue'
 import { useNav } from '@slidev/client'
+import setupShiki from '@slidev/client/setup/shiki.ts'
 
 // Workshop agenda: module number -> [label, start min, length min, color]
 const MODULES: Record<number, [string, number, number, string]> = {
@@ -35,6 +36,48 @@ const segments = computed(() => {
   return segs.sort((a, b) => a.start - b.start)
 })
 const pct = computed(() => Math.round((currentSlideNo.value / total.value) * 100))
+
+// Syntax-highlight inline `code` that looks like a command or Playwright code,
+// using the deck's own Shiki themes (follows light/dark like fenced blocks).
+const SHELL = /^(npx|npm|pnpm|yarn|bun|cd|git|node|docker|curl|brew|lsof|kill|open|export|[A-Z_]+=)\b/
+const TS = /(\bawait\b|\bexpect\(|\bpage\.|\blocator\.|\w\.\w+\(|\w\(.*\))/
+let observer: MutationObserver | undefined
+let timer: ReturnType<typeof setTimeout> | undefined
+
+async function highlightInline() {
+  const els = Array.from(document.querySelectorAll<HTMLElement>('.slidev-layout code:not([data-hl])'))
+    .filter(el => !el.closest('pre'))
+  if (!els.length) return
+  const { shorthands, defaultHighlightOptions } = await setupShiki()
+  for (const el of els) {
+    el.dataset.hl = '1'
+    const src = el.textContent ?? ''
+    const lang = SHELL.test(src) ? 'bash' : TS.test(src) ? 'ts' : null
+    if (!lang) continue
+    try {
+      const html = await shorthands.codeToHtml(src, { ...defaultHighlightOptions, lang })
+      const doc = new DOMParser().parseFromString(html, 'text/html')
+      const pre = doc.querySelector('pre')
+      const code = doc.querySelector('pre code')
+      if (!pre || !code) continue
+      el.className = `${el.className} shiki ${pre.className}`.trim()
+      el.innerHTML = code.innerHTML
+      el.classList.add('hl-inline')
+    }
+    catch (e) {
+      console.error('[inline-hl]', e)
+    }
+  }
+}
+onMounted(() => {
+  highlightInline()
+  observer = new MutationObserver(() => {
+    clearTimeout(timer)
+    timer = setTimeout(highlightInline, 60)
+  })
+  observer.observe(document.body, { childList: true, subtree: true })
+})
+onBeforeUnmount(() => { observer?.disconnect() })
 </script>
 
 <template>

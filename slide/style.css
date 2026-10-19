@@ -74,3 +74,8 @@ html.dark .slidev-code .slidev-code-dishonored { opacity: 0.55; }
 /* whole-block focus for slides that step through several code blocks */
 .dimmable { transition: opacity 0.3s; }
 .dimmable.dim { opacity: 0.35; }
+
+/* inline code highlighted by global-top.vue */
+.slidev-layout code.hl-inline { background: transparent; font-weight: 500; white-space: pre-wrap; }
+.slidev-layout code.hl-inline span { color: var(--shiki-light); }
+html.dark .slidev-layout code.hl-inline span { color: var(--shiki-dark); }
