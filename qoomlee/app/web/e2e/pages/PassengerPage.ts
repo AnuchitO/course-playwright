@@ -1,4 +1,4 @@
-import type { Page } from '@playwright/test';
+import { expect, type Page } from '@playwright/test';
 
 /** Everything a traveller can do on the passenger form, and nothing else. */
 export class PassengerPage {
@@ -20,5 +20,13 @@ export class PassengerPage {
   }
   async continueToPayment() {
     await this.page.getByRole('button', { name: /continue to payment/i }).click();
+  }
+
+  // a few verifies about THIS screen, named by intent
+  async expectRequiredErrors(count: number) {
+    await expect(this.page.getByText('Required', { exact: true })).toHaveCount(count);
+  }
+  async expectEmailError() {
+    await expect(this.page.getByText('Valid email required')).toBeVisible();
   }
 }
