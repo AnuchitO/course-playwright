@@ -8,4 +8,5 @@ test('search BKK to SIN, one way', async ({ page }) => {
   // after the origin is chosen its button text changes, so .first() is the destination next
   await page.getByRole('button', { name: /select city or airport/i }).first().click();
   await page.getByRole('button', { name: /Suvarnabhumi/ }).click();
+  await page.getByRole('button', { name: /select city or airport/i }).first().click();
 });
