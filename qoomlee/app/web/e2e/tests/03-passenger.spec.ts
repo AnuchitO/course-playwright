@@ -32,4 +32,6 @@ test('valid passenger details move on to payment', async ({ page }) => {
   await page.getByPlaceholder('john.doe@example.com').fill(`jane+${Date.now()}@test.com`);
   await page.getByPlaceholder('000 000 000').fill('0800000000');
   await page.getByRole('button', { name: /continue to payment/i }).click();
+
+  await expect(page).toHaveURL(/\/payment\/?\?ref=[A-Z0-9]{6}/);
 });
