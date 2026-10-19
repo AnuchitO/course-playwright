@@ -4,6 +4,8 @@ import type { Page } from '@playwright/test';
 export class PassengerPage {
   constructor(private readonly page: Page) {}
 
+  readonly heading = this.page.getByRole('heading', { name: 'Book Your Flight' });
+
   async enterFirstName(name: string) {
     await this.page.getByLabel('First Name').fill(name);
   }
