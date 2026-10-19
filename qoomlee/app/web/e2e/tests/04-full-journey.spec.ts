@@ -2,6 +2,8 @@ import { test, expect } from '@playwright/test';
 import { firstDepartureDate } from '../helpers/flights';
 import { PassengerPage } from '../pages/PassengerPage';
 import { ResultsPage } from '../pages/ResultsPage';
+import { PaymentPage } from '../pages/PaymentPage';
+import { TEST_CARD } from '../data/card';
 
 test('full journey: search results to confirmation @smoke', async ({ page, request }) => {
   // 1-2. results (skip the search form: it is already covered by step 1)
@@ -17,13 +19,8 @@ test('full journey: search results to confirmation @smoke', async ({ page, reque
   await form.enterPhone('0800000000');
   await form.continueToPayment();
 
-  // 4. payment (Omise TEST card, never a real one)
-  await page.getByPlaceholder('e.g. Johnathan Doe').fill('Jane Doe');
-  await page.getByPlaceholder('0000 0000 0000 0000').fill('4242 4242 4242 4242');
-  await page.getByPlaceholder('MM/YY').fill('12/29');
-  await page.getByPlaceholder('•••').fill('123');
-  await page.getByLabel(/agree to the terms/i).check();
-  await page.getByRole('button', { name: /pay .* securely/i }).click();
+  // 4. payment
+  await new PaymentPage(page).payWith(TEST_CARD);
 
   // 5. confirmation
   await expect(page.getByRole('heading', { name: 'Booking Confirmed!' })).toBeVisible({ timeout: 30_000 });
