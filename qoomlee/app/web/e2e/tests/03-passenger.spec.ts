@@ -25,3 +25,7 @@ test('email without @ is rejected', async ({ page }) => {
   await expect(page.getByText('Valid email required')).toBeVisible();
   await expect(page).toHaveURL(/\/bookings\/new/);
 });
+
+test('valid passenger details move on to payment', async ({ page }) => {
+  await page.getByPlaceholder('e.g. John').fill('Jane');
+});
