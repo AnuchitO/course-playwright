@@ -13,4 +13,5 @@ test.beforeEach(async ({ page, request }) => {
 test('empty form shows required errors', async ({ page }) => {
   await page.getByRole('button', { name: /continue to payment/i }).click();
   await expect(page.getByText('Required', { exact: true })).toHaveCount(3);
+  await expect(page.getByText('Valid email required')).toBeVisible();
 });
