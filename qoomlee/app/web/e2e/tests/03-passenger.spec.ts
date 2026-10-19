@@ -42,4 +42,6 @@ test('valid passenger details move on to payment and pay', async ({ page }) => {
   await page.getByPlaceholder('•••').fill('123');
   await page.getByLabel(/agree to the terms/i).check();
   await page.getByRole('button', { name: /pay .* securely/i }).click();
+  // the gateway can take seconds: give THIS assertion more time
+  await expect(page.getByRole('heading', { name: 'Booking Confirmed!' })).toBeVisible({ timeout: 30_000 });
 });
