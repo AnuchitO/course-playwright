@@ -15,3 +15,7 @@ test('empty form shows required errors', async ({ page }) => {
   await expect(page.getByText('Required', { exact: true })).toHaveCount(3);
   await expect(page.getByText('Valid email required')).toBeVisible();
 });
+
+test('valid passenger details move on to payment', async ({ page }) => {
+  await page.getByPlaceholder('e.g. John').fill('Jane');
+});
