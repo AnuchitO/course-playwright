@@ -4,6 +4,7 @@ import { PassengerPage } from '../pages/PassengerPage';
 import { ResultsPage } from '../pages/ResultsPage';
 import { PaymentPage } from '../pages/PaymentPage';
 import { TEST_CARD } from '../data/card';
+import { ConfirmationPage } from '../pages/ConfirmationPage';
 
 test('full journey: search results to confirmation @smoke', async ({ page, request }) => {
   // 1-2. results (skip the search form: it is already covered by step 1)
@@ -23,8 +24,9 @@ test('full journey: search results to confirmation @smoke', async ({ page, reque
   await new PaymentPage(page).payWith(TEST_CARD);
 
   // 5. confirmation
-  await expect(page.getByRole('heading', { name: 'Booking Confirmed!' })).toBeVisible({ timeout: 30_000 });
-  await expect(page.getByText(/BOOKING REFERENCE/i)).toBeVisible();
+  const confirmation = new ConfirmationPage(page);
+  await expect(confirmation.heading).toBeVisible({ timeout: 30_000 });
+  await expect(confirmation.reference).toBeVisible();
   await expect(page.getByText('BKK → SIN').first()).toBeVisible();
   await expect(page.getByText('Jane Doe')).toBeVisible();
 });
