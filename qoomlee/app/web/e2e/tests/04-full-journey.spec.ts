@@ -7,4 +7,5 @@ test('full journey: search results to confirmation @smoke', async ({ page, reque
   await page.goto(
     `/flights/results?origin=BKK&destination=SIN&departure=${day}&passengers=1&cabin=economy`,
   );
+  await page.getByRole('button', { name: /select/i }).first().click();
 });
