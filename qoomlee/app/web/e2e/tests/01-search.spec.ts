@@ -15,4 +15,5 @@ test('search BKK to SIN, one way', async ({ page }) => {
   await page.getByText('Today', { exact: true }).click();
 
   await page.getByRole('button', { name: 'Search Flights' }).click();
+  await expect(page).toHaveURL(/\/flights\/results\/?\?.*origin=BKK.*destination=SIN/);
 });
