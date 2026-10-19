@@ -31,4 +31,5 @@ test('valid passenger details move on to payment', async ({ page }) => {
   await page.getByPlaceholder('e.g. Doe').fill('Doe');
   await page.getByPlaceholder('john.doe@example.com').fill(`jane+${Date.now()}@test.com`);
   await page.getByPlaceholder('000 000 000').fill('0800000000');
+  await page.getByRole('button', { name: /continue to payment/i }).click();
 });
