@@ -13,4 +13,6 @@ test('search BKK to SIN, one way', async ({ page }) => {
 
   await page.getByText('Select date').locator('visible=true').click();
   await page.getByText('Today', { exact: true }).click();
+
+  await page.getByRole('button', { name: 'Search Flights' }).click();
 });
