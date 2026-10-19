@@ -12,4 +12,5 @@ test('search BKK to SIN, one way', async ({ page }) => {
   await page.getByRole('button', { name: /Singapore Changi/ }).click();
 
   await page.getByText('Select date').locator('visible=true').click();
+  await page.getByText('Today', { exact: true }).click();
 });
