@@ -23,4 +23,7 @@ test('full journey: search results to confirmation @smoke', async ({ page, reque
   await page.getByPlaceholder('•••').fill('123');
   await page.getByLabel(/agree to the terms/i).check();
   await page.getByRole('button', { name: /pay .* securely/i }).click();
+
+  // 5. confirmation
+  await expect(page.getByRole('heading', { name: 'Booking Confirmed!' })).toBeVisible({ timeout: 30_000 });
 });
