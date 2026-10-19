@@ -5,6 +5,7 @@ import { ResultsPage } from '../pages/ResultsPage';
 import { PaymentPage } from '../pages/PaymentPage';
 import { TEST_CARD } from '../data/card';
 import { ConfirmationPage } from '../pages/ConfirmationPage';
+import { aPassenger } from '../data/passenger';
 
 test('full journey: search results to confirmation @smoke', async ({ page, request }) => {
   // 1-2. results (skip the search form: it is already covered by step 1)
@@ -14,10 +15,7 @@ test('full journey: search results to confirmation @smoke', async ({ page, reque
 
   // 3. passenger
   const form = new PassengerPage(page);
-  await form.enterFirstName('Jane');
-  await form.enterLastName('Doe');
-  await form.enterEmail(`jane+${Date.now()}@test.com`);
-  await form.enterPhone('0800000000');
+  await form.fill(aPassenger());
   await form.continueToPayment();
 
   // 4. payment
