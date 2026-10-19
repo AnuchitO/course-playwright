@@ -16,4 +16,7 @@ export class PassengerPage {
   async enterPhone(phone: string) {
     await this.page.getByPlaceholder('000 000 000').fill(phone);
   }
+  async continueToPayment() {
+    await this.page.getByRole('button', { name: /continue to payment/i }).click();
+  }
 }
