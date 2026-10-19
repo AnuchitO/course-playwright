@@ -11,4 +11,5 @@ test('results list QM101, selecting it opens the booking form', async ({ page, r
   await expect(page.getByText('BKK → SIN')).toBeVisible();
 
   await page.getByRole('button', { name: /select/i }).first().click();
+  await expect(page).toHaveURL(/\/bookings\/new/);
 });
