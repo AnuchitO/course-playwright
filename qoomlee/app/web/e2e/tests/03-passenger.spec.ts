@@ -4,6 +4,7 @@ import { PassengerPage } from '../pages/PassengerPage';
 import { ResultsPage } from '../pages/ResultsPage';
 import { PaymentPage } from '../pages/PaymentPage';
 import { TEST_CARD } from '../data/card';
+import { ConfirmationPage } from '../pages/ConfirmationPage';
 
 test.beforeEach(async ({ page, request }) => {
   const results = new ResultsPage(page);
@@ -43,5 +44,6 @@ test('valid passenger details move on to payment and pay', async ({ page }) => {
   await new PaymentPage(page).payWith(TEST_CARD);
 
   // the gateway can take seconds: give THIS assertion more time
-  await expect(page.getByRole('heading', { name: 'Booking Confirmed!' })).toBeVisible({ timeout: 30_000 });
+  const confirmation = new ConfirmationPage(page);
+  await expect(confirmation.heading).toBeVisible({ timeout: 30_000 });
 });
