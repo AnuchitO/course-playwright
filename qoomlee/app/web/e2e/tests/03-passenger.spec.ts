@@ -14,8 +14,8 @@ test.beforeEach(async ({ page, request }) => {
 test('empty form shows required errors', async ({ page }) => {
   const form = new PassengerPage(page);
   await form.continueToPayment();
-  await expect(page.getByText('Required', { exact: true })).toHaveCount(3);
-  await expect(page.getByText('Valid email required')).toBeVisible();
+  await form.expectRequiredErrors(3);
+  await form.expectEmailError();
 });
 
 test('valid passenger details move on to payment and pay', async ({ page }) => {
