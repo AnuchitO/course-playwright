@@ -1,4 +1,5 @@
 import { expect, type Page } from '@playwright/test';
+import type { Passenger } from '../data/passenger';
 
 /** Everything a traveller can do on the passenger form, and nothing else. */
 export class PassengerPage {
@@ -20,6 +21,14 @@ export class PassengerPage {
   }
   async continueToPayment() {
     await this.page.getByRole('button', { name: /continue to payment/i }).click();
+  }
+
+  // convenience: the whole form in one call
+  async fill(p: Passenger) {
+    await this.enterFirstName(p.firstName);
+    await this.enterLastName(p.lastName);
+    await this.enterEmail(p.email);
+    await this.enterPhone(p.phone);
   }
 
   // a few verifies about THIS screen, named by intent
