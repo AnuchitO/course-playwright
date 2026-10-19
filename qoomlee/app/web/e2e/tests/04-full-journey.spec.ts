@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { firstDepartureDate } from '../helpers/flights';
+import { PassengerPage } from '../pages/PassengerPage';
 
 test('full journey: search results to confirmation @smoke', async ({ page, request }) => {
   // 1-2. results (skip the search form: it is already covered by step 1)
@@ -10,11 +11,12 @@ test('full journey: search results to confirmation @smoke', async ({ page, reque
   await page.getByRole('button', { name: /select/i }).first().click();
 
   // 3. passenger
-  await page.getByLabel('First Name').fill('Jane');
-  await page.getByPlaceholder('e.g. Doe').fill('Doe');
-  await page.getByPlaceholder('john.doe@example.com').fill(`jane+${Date.now()}@test.com`);
-  await page.getByPlaceholder('000 000 000').fill('0800000000');
-  await page.getByRole('button', { name: /continue to payment/i }).click();
+  const form = new PassengerPage(page);
+  await form.enterFirstName('Jane');
+  await form.enterLastName('Doe');
+  await form.enterEmail(`jane+${Date.now()}@test.com`);
+  await form.enterPhone('0800000000');
+  await form.continueToPayment();
 
   // 4. payment (Omise TEST card, never a real one)
   await page.getByPlaceholder('e.g. Johnathan Doe').fill('Jane Doe');
