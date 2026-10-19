@@ -26,4 +26,5 @@ test('full journey: search results to confirmation @smoke', async ({ page, reque
 
   // 5. confirmation
   await expect(page.getByRole('heading', { name: 'Booking Confirmed!' })).toBeVisible({ timeout: 30_000 });
+  await expect(page.getByText(/BOOKING REFERENCE/i)).toBeVisible();
 });
