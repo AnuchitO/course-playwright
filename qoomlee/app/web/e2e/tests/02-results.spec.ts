@@ -8,4 +8,5 @@ test('results list QM101', async ({ page, request }) => {
   );
 
   await expect(page.getByText('QM101').first()).toBeVisible();
+  await expect(page.getByText('BKK → SIN')).toBeVisible();
 });
