@@ -16,7 +16,6 @@ const MODULES: Record<number, [string, number, number, string]> = {
   8: ['8 Code structure', 155, 15, '#0d9488'],
   9: ['9 Wrap-up', 170, 10, '#334155'],
 }
-const BREAK = { start: 55, length: 10 }
 
 const { currentSlideRoute, currentSlideNo, total } = useNav()
 const fm = computed<any>(() => (currentSlideRoute.value as any)?.meta?.slide?.frontmatter ?? {})
@@ -30,7 +29,6 @@ watchEffect(() => {
 
 const segments = computed(() => {
   const segs = Object.entries(MODULES).map(([k, v]) => ({ k: Number(k), start: v[1], len: v[2], color: v[3] }))
-  segs.push({ k: -1, start: BREAK.start, len: BREAK.length, color: '#cbd5e1' })
   return segs.sort((a, b) => a.start - b.start)
 })
 const pct = computed(() => Math.round((currentSlideNo.value / total.value) * 100))

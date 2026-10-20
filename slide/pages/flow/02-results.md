@@ -224,22 +224,5 @@ Create `qoomlee/app/web/e2e/tests/my/02-results.spec.ts`.
 <!--
 SAY: 8 minutes. Solution: qoomlee/app/web/e2e/tests/02-results.spec.ts.
 RECAP (click): SAY: three bullets. Ask who tried SLOW_API and saw it still pass. TIME: 1 min.
-NEXT: Break, then the booking form. After the break we do the form, where tests get long.
--->
-
----
-layout: default
-module: 2
----
-
-# Break · 10 min
-
-<div class="big-line" style="margin-top:2rem">Back at 1:05.</div>
-
-<div class="small" style="margin-top:1rem">Before you leave: your tests from labs 1 and 2 should be green. Next up: forms, validation, and the payment screen.</div>
-
-<!--
-SAY: Break. Anyone with a red test: find me, we fix it now so you are not behind.
-TIME: 10 min.
-NEXT: Module 3.
+NEXT: The booking form, where tests get long.
 -->
