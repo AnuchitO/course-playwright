@@ -3,29 +3,53 @@ layout: default
 module: 0
 ---
 
-# The one outcome, and the day
+# What you will learn
 
-<div class="big-line">By 3:00 you can <b>write a full booking-flow test</b> and <b>structure it for a team</b>.</div>
+<div class="outcome">
+  <div class="card"><div class="k">1</div><div><b>Write</b> a full booking-flow test</div></div>
+  <div class="card"><div class="k">2</div><div><b>Structure</b> it so a team can keep it</div></div>
+</div>
 
-| | | |
-|---|---|---|
-| 0:00 | **0** Setup & the app | 10 |
-| 0:10 | **1** Flight search | 25 |
-| 0:35 | **2** Flight results | 20 |
-| 0:55 | break | 10 |
-| 1:05 | **3** Booking & passenger info | 20 |
-| 1:25 | **4** Payment | 15 |
-| 1:40 | **5** Confirmation & the full journey | 15 |
-| 1:55 | **6** Debug it | 10 |
-| 2:05 | **7** Refactor to Page Objects | 30 |
-| 2:35 | **8** Code structure best practices | 15 |
-| 2:50 | **9** Wrap-up | 10 |
+<div class="path">
+  <div class="half" v-click>
+    <div class="label" style="--c:#2563eb">First: write it, screen by screen</div>
+    <div class="steps">
+      <div class="step" style="--c:#65a30d"><i>0</i>Setup</div>
+      <div class="step" style="--c:#2563eb"><i>1</i>Search</div>
+      <div class="step" style="--c:#d97706"><i>2</i>Results</div>
+      <div class="step" style="--c:#059669"><i>3</i>Passenger</div>
+      <div class="step" style="--c:#db2777"><i>4</i>Payment</div>
+      <div class="step" style="--c:#0891b2"><i>5</i>Confirmation</div>
+      <div class="step" style="--c:#dc2626"><i>6</i>Debug</div>
+    </div>
+  </div>
+  <div class="half" v-click>
+    <div class="label" style="--c:#7c3aed">Then: make it clean</div>
+    <div class="steps">
+      <div class="step" style="--c:#7c3aed"><i>7</i>Page Objects</div>
+      <div class="step" style="--c:#0d9488"><i>8</i>Structure</div>
+      <div class="step" style="--c:#334155"><i>9</i>Wrap-up</div>
+    </div>
+  </div>
+</div>
+
+<style scoped>
+.outcome { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin: 1.6rem 0 2.6rem; }
+.card { display: flex; align-items: center; gap: 1rem; font-size: 1.6rem; line-height: 1.25; padding: 1.1rem 1.3rem; border-radius: 14px; background: var(--hint-bg); border-left: 8px solid var(--m); }
+.card .k { font-size: 3rem; font-weight: 900; color: var(--m); line-height: 1; }
+.path { display: flex; flex-direction: column; gap: 2rem; }
+.label { font-size: 1.1rem; font-weight: 800; color: var(--c); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem; }
+.steps { display: flex; flex-wrap: nowrap; gap: 0.5rem; }
+.step { display: flex; align-items: center; gap: 0.5rem; font-size: 1.05rem; font-weight: 700; padding: 0.3rem 0.8rem 0.3rem 0.3rem; white-space: nowrap; border-radius: 999px; border: 2px solid var(--c); }
+.step i { display: grid; place-items: center; width: 1.8rem; height: 1.8rem; border-radius: 50%; background: var(--c); color: #fff; font-style: normal; font-size: 0.95rem; }
+</style>
 
 <!--
-SAY: Two halves. Until 2:05 we write ONE test, screen by screen, and it is allowed to be ugly. From 2:05 we refactor it into something a team can live with. You feel the pain first, then the pattern fixes it.
-Point at the bar on top: coloured per module, shows the clock.
+SAY: One outcome: you can write a full booking-flow test, and then structure it so a team can keep it.
+CLICK 1: First half. Setup, then one screen at a time: search, results, passenger, payment, confirmation, and debugging. It is allowed to be ugly.
+CLICK 2: Second half. Page Objects, a structure that scales, wrap-up. You feel the pain first, then the pattern fixes it.
+Point at the bar on top: coloured per module, shows where we are.
 Q: "Do we get the slides and code?" Yes: `make replay` walks every step commit by commit, qoomlee/app/web/e2e = the refactored result.
-TIME: 2 min.
 NEXT: Quick readiness check.
 -->
 
