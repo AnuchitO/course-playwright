@@ -15,3 +15,11 @@ test('empty form shows required errors', async ({ page }) => {
   await expect(page.getByText('Required', { exact: true })).toHaveCount(3);
   await expect(page.getByText('Valid email required')).toBeVisible();
 });
+
+test('email without @ is rejected', async ({ page }) => {
+  await page.getByPlaceholder('e.g. John').fill('Jane');
+  await page.getByPlaceholder('e.g. Doe').fill('Doe');
+  await page.getByPlaceholder('john.doe@example.com').fill('not-an-email');
+  await page.getByPlaceholder('000 000 000').fill('0800000000');
+  await page.getByRole('button', { name: /continue to payment/i }).click();
+});
