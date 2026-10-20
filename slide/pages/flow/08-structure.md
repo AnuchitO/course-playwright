@@ -24,8 +24,8 @@ stepId: m8-tree
 <div class="grid grid-cols-[1fr_1.1fr] gap-6">
 
 ```txt
-workshop/flow/
-├── playwright.config.ts   # projects, timeouts, trace
+qoomlee/app/web/e2e/
+├── playwright.config.ts   # projects, retries, trace
 ├── pages/                 # one class per screen
 │   ├── SearchPage.ts
 │   ├── ResultsPage.ts
@@ -37,6 +37,8 @@ workshop/flow/
 ├── data/                  # builders, test card
 │   ├── passenger.ts
 │   └── card.ts
+├── helpers/
+│   └── flights.ts         # firstDepartureDate(request)
 └── tests/                 # specs by feature
     ├── search.spec.ts
     ├── passenger-validation.spec.ts
@@ -129,20 +131,21 @@ stepId: m8-config
 
 # Config and tags: one suite, many uses
 
-```ts [workshop/flow/playwright.config.ts] {1-3|5-9|all}
-projects: [
-  { name: 'mobile',  use: { ...devices['iPhone 13'], defaultBrowserType: 'chromium' } },
-  { name: 'desktop', use: { ...devices['Desktop Chrome'] } }, // needs desktop locators
-],
+```ts [qoomlee/app/web/e2e/playwright.config.ts] {1|2|3-7|all}
 retries: process.env.CI ? 2 : 0,
-use: { trace: 'on-first-retry', screenshot: 'only-on-failure' },
+use: { baseURL: "http://localhost:3000", trace: "on-first-retry", screenshot: "only-on-failure" },
+projects: [
+  // Chromium engine + iPhone 13 viewport, touch, user agent
+  { name: "mobile", use: { ...devices["iPhone 13"], defaultBrowserType: "chromium" } },
+  // { name: "desktop", use: { ...devices["Desktop Chrome"] } }, // needs desktop locators
+],
 ```
 
 | Command | Use |
 |---|---|
-| `npx playwright test --grep @smoke` | every push |
-| `npx playwright test --project=mobile` | one viewport |
-| `npx playwright test` | nightly, everything |
+| `bun run test:e2e --grep @smoke` | every push |
+| `bun run test:e2e --project=mobile` | one viewport |
+| `bun run test:e2e` | nightly, everything |
 
 <div class="small">Careful: locators differ per viewport (<code>Select city or airport</code> vs <code>Select origin</code>). When a page differs a lot between mobile and desktop, give the Page Object an <code>isMobile</code> branch or split the class.</div>
 

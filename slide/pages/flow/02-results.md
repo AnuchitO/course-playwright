@@ -85,14 +85,15 @@ class: compact
 <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-8 items-center">
 <div>
 
-```ts [workshop/flow/steps/02-results.spec.ts] {1-2|4-7|9|10|all}
-import { test, expect } from '../../starter/helpers/fixtures';
-import { firstDepartureDate } from '../../starter/helpers/flights';
+```ts [qoomlee/app/web/e2e/tests/02-results.spec.ts] {1-2|4-8|10|11|all}
+import { test, expect } from '@playwright/test';
+import { firstDepartureDate } from '../helpers/flights';
 
 test('results list QM101', async ({ page, request }) => {
-  const day = await firstDepartureDate(request); // a day with a flight
+  const day = await firstDepartureDate(request); // a day that really has a flight
   await page.goto(
-    `/flights/results?origin=BKK&destination=SIN&departure=${day}&passengers=1&cabin=economy`);
+    `/flights/results?origin=BKK&destination=SIN&departure=${day}&passengers=1&cabin=economy`,
+  );
 
   await expect(page.getByText('QM101')).toBeVisible();
   await expect(page.getByText('BKK → SIN')).toBeVisible();
@@ -102,8 +103,8 @@ test('results list QM101', async ({ page, request }) => {
 <div class="small"><code>request</code> is a built-in fixture: an HTTP client, no browser. Test data from the API keeps the test valid next week.</div>
 </div>
 <PhoneShot src="06-results" caption="what the test sees" :height="400" :marks="[
-  { k: 'card', at: 2, line: 9 },
-  { k: 'route', at: 3, line: 10 },
+  { k: 'card', at: 2, line: 10 },
+  { k: 'route', at: 3, line: 11 },
 ]" />
 </div>
 
@@ -150,7 +151,7 @@ await expect(card).toBeVisible();
 
 <!--
 SAY: This is the single most important habit. Results arrive from a network call; the page is empty for a moment. A sleep either wastes time or fails on a slow machine. A web-first assertion waits exactly as long as needed.
-DEMO (optional): `SLOW_API=3000 npx playwright test -c flow 02-results` delays every backend call by 3 s and the test still passes.
+DEMO (optional): `SLOW_API=3000 bun run test:e2e 02-results` delays every backend call by 3 s and the test still passes.
 TIME: 4 min.
 NEXT: Select the flight.
 -->
@@ -167,14 +168,14 @@ class: compact
 <div class="grid grid-cols-[minmax(0,1fr)_auto_auto] gap-5 items-center">
 <div>
 
-```ts {1|2|3-4|all}
+```ts [qoomlee/app/web/e2e/tests/02-results.spec.ts] {1|2|3-4|all}
 await page.getByRole('button', { name: /select/i }).first().click();
 await expect(page).toHaveURL(/\/bookings\/new/);
 await expect(page.getByRole('heading', { name: 'Book Your Flight' }))
   .toBeVisible();
 ```
 
-<StepCommand command="cd workshop && npx playwright test -c flow 02-results" />
+<StepCommand command="cd qoomlee/app/web && bun run test:e2e 02-results" />
 
 <div class="small">Two assertions on arrival: <b>URL</b> (right route) and <b>heading</b> (page really rendered).</div>
 </div>
@@ -197,10 +198,10 @@ layout: lab
 module: 2
 lab: 2
 minutes: 8
-solution: workshop/flow/steps/02-results.spec.ts
+solution: qoomlee/app/web/e2e/tests/02-results.spec.ts
 ---
 
-Create `workshop/flow/my/02-results.spec.ts`.
+Create `qoomlee/app/web/e2e/tests/my/02-results.spec.ts`.
 
 1. Get a real date with `firstDepartureDate(request)`
 2. Open the results URL, assert **QM101** is visible
@@ -221,7 +222,7 @@ Create `workshop/flow/my/02-results.spec.ts`.
 - Assertions retry; sleeps are a bug
 
 <!--
-SAY: 8 minutes. Solution: workshop/flow/steps/02-results.spec.ts.
+SAY: 8 minutes. Solution: qoomlee/app/web/e2e/tests/02-results.spec.ts.
 RECAP (click): SAY: three bullets. Ask who tried SLOW_API and saw it still pass. TIME: 1 min.
 NEXT: Break, then the booking form. After the break we do the form, where tests get long.
 -->

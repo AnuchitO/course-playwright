@@ -51,7 +51,7 @@ module: 9
 | Debug | `--ui`, `--debug`, `codegen --device`, `show-trace` |
 | Structure | `pages/` `fixtures/` `data/` `tests/`: tests import fixtures and data only |
 
-<div class="small">Handout: <code>workshop/handout.md</code> · Code: <code>workshop/flow/steps</code> (each step) and <code>workshop/flow/final</code> (refactored)</div>
+<div class="small">Handout: <code>workshop/handout.md</code> · Code: <code>make replay</code> (every step, commit by commit) and <code>qoomlee/app/web/e2e</code> (refactored)</div>
 
 <!--
 SAY: Photograph this slide. The handout has the long version.

@@ -25,20 +25,21 @@ class: compact
 <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-8 items-center">
 <div>
 
-```ts [workshop/flow/steps/03-passenger.spec.ts] {1|2-3|4|5-6|all}
+```ts [qoomlee/app/web/e2e/tests/03-passenger.spec.ts] {1|2|3-5|6|7|all}
 test.beforeEach(async ({ page, request }) => {
   const day = await firstDepartureDate(request);
-  await page.goto(`/flights/results?origin=BKK&destination=SIN&departure=${day}&…`);
+  await page.goto(
+    `/flights/results?origin=BKK&destination=SIN&departure=${day}&passengers=1&cabin=economy`,
+  );
   await page.getByRole('button', { name: /select/i }).first().click();
-  await expect(page.getByRole('heading', { name: 'Book Your Flight' }))
-    .toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Book Your Flight' })).toBeVisible();
 });
 ```
 
 <div class="small" style="margin-top:0.8rem">Every test in this file starts on the passenger form. Each test still gets a <b>fresh browser context</b>: no shared state.</div>
 </div>
 <PhoneShot src="07-booking-empty" caption="/bookings/new" :height="400" :marks="[
-  { k: 'heading', at: 3, line: 5 },
+  { k: 'heading', at: 4, line: 8 },
 ]" />
 </div>
 
@@ -60,7 +61,7 @@ class: compact
 <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-8 items-center">
 <div>
 
-```ts {1|2|3|4|all}
+```ts [qoomlee/app/web/e2e/tests/03-passenger.spec.ts] {1|2|3|4|all}
 test('empty form shows required errors', async ({ page }) => {
   await page.getByRole('button', { name: /continue to payment/i }).click();
   await expect(page.getByText('Required', { exact: true })).toHaveCount(3);
@@ -98,12 +99,11 @@ class: compact
 <div class="grid grid-cols-[minmax(0,1fr)_auto_auto] gap-5 items-center">
 <div>
 
-```ts {1|2-6|7|9|all}
-test('valid details move on to payment', async ({ page }) => {
+```ts [qoomlee/app/web/e2e/tests/03-passenger.spec.ts] {1|2-5|6|8|all}
+test('valid passenger details move on to payment', async ({ page }) => {
   await page.getByPlaceholder('e.g. John').fill('Jane');
   await page.getByPlaceholder('e.g. Doe').fill('Doe');
-  await page.getByPlaceholder('john.doe@example.com')
-    .fill(`jane+${Date.now()}@test.com`);
+  await page.getByPlaceholder('john.doe@example.com').fill(`jane+${Date.now()}@test.com`);
   await page.getByPlaceholder('000 000 000').fill('0800000000');
   await page.getByRole('button', { name: /continue to payment/i }).click();
 
@@ -116,12 +116,12 @@ test('valid details move on to payment', async ({ page }) => {
 <PhoneShot src="09-booking-filled" caption="filled" :height="330" :marks="[
   { k: 'first', at: 1, line: 2 },
   { k: 'last', at: 1, line: 3 },
-  { k: 'email', at: 1, line: 5 },
-  { k: 'phone', at: 1, line: 6 },
-  { k: 'cont', at: 2, line: 7 },
+  { k: 'email', at: 1, line: 4 },
+  { k: 'phone', at: 1, line: 5 },
+  { k: 'cont', at: 2, line: 6 },
 ]" />
 <PhoneShot src="10-payment-empty" caption="next: payment" :height="330" :marks="[
-  { k: 'heading', at: 3, line: 9 },
+  { k: 'heading', at: 3, line: 8 },
 ]" />
 </div>
 
@@ -141,11 +141,14 @@ stepId: m3-run
 
 # Run it
 
-<StepCommand command="cd workshop && npx playwright test -c flow 03-passenger" />
+Run from the app folder; the filter `03-passenger` picks the spec file:
+
+<StepCommand command="cd qoomlee/app/web && bun run test:e2e 03-passenger" />
 
 ```txt
-  ✓  [mobile] › 03-passenger.spec.ts:11:1 › empty form shows required errors (1.8s)
-  ✓  [mobile] › 03-passenger.spec.ts:17:1 › valid passenger details move on to payment (1.9s)
+Running 2 tests using 2 workers
+  ✓  1 [mobile] › tests/03-passenger.spec.ts:13:1 › empty form shows required errors (1.8s)
+  ✓  2 [mobile] › tests/03-passenger.spec.ts:19:1 › valid passenger details move on to payment (1.9s)
   2 passed
 ```
 
@@ -162,10 +165,10 @@ layout: lab
 module: 3
 lab: 3
 minutes: 8
-solution: workshop/flow/steps/03-passenger.spec.ts
+solution: qoomlee/app/web/e2e/tests/03-passenger.spec.ts
 ---
 
-Create `workshop/flow/my/03-passenger.spec.ts`.
+Create `qoomlee/app/web/e2e/tests/my/03-passenger.spec.ts`.
 
 1. `beforeEach`: reach the **Book Your Flight** form
 2. Test: empty form, expect 3 × **Required** and the email error
@@ -186,7 +189,7 @@ For test 3, fill the other fields validly and put the bad value only in email. O
 - One reason to fail per test
 
 <!--
-SAY: 8 minutes. Solution: workshop/flow/steps/03-passenger.spec.ts.
+SAY: 8 minutes. Solution: qoomlee/app/web/e2e/tests/03-passenger.spec.ts.
 COMMON ISSUES: forgot exact:true so toHaveCount is off; reused the same email.
 RECAP (click): SAY: three bullets. TIME: 1 min.
 NEXT: Payment.

@@ -83,7 +83,7 @@ class: compact
 <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-8 items-center">
 <div>
 
-```ts [workshop/flow/final/pages/PassengerPage.ts] {4-6|7-9|10-12|13-15|16-18|all}
+```ts [qoomlee/app/web/e2e/pages/PassengerPage.ts] {4-6|7-9|10-12|13-15|16-18|all}
 export class PassengerPage {
   constructor(private readonly page: Page) {}
 
@@ -184,8 +184,8 @@ class: compact
 <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-8 items-center">
 <div>
 
-```ts {2-5|6-9|all}
-// pages/PassengerPage.ts: checks about THIS screen, named by intent
+```ts [qoomlee/app/web/e2e/pages/PassengerPage.ts] {2-5|6-9|all}
+// a few verifies about THIS screen, named by intent
 async expectRequiredErrors(count: number) {
   await expect(this.page.getByText('Required', { exact: true }))
     .toHaveCount(count);
@@ -232,21 +232,21 @@ class: compact
 <div class="grid grid-cols-[minmax(0,1fr)_auto_auto] gap-5 items-center">
 <div>
 
-```ts [workshop/flow/final/pages/PaymentPage.ts] {4-6|7-9|10-12|13-15|16-18|19-22|all}
+```ts [qoomlee/app/web/e2e/pages/PaymentPage.ts] {4-6|7-9|10-12|13-15|16-18|19-22|all}
 export class PaymentPage {
   constructor(private readonly page: Page) {}
 
-  async enterCardName(v: string) {
-    await this.page.getByPlaceholder('e.g. Johnathan Doe').fill(v);
+  async enterCardName(name: string) {
+    await this.page.getByPlaceholder('e.g. Johnathan Doe').fill(name);
   }
-  async enterCardNumber(v: string) {
-    await this.page.getByPlaceholder('0000 0000 0000 0000').fill(v);
+  async enterCardNumber(number: string) {
+    await this.page.getByPlaceholder('0000 0000 0000 0000').fill(number);
   }
-  async enterExpiry(v: string) {
-    await this.page.getByPlaceholder('MM/YY').fill(v);
+  async enterExpiry(expiry: string) {
+    await this.page.getByPlaceholder('MM/YY').fill(expiry);
   }
-  async enterCvv(v: string) {
-    await this.page.getByPlaceholder('•••').fill(v);
+  async enterCvv(cvv: string) {
+    await this.page.getByPlaceholder('•••').fill(cvv);
   }
   async acceptTerms() {
     await this.page.getByLabel(/agree to the terms/i).check();
@@ -288,8 +288,8 @@ class: compact
 <div class="grid grid-cols-[minmax(0,1fr)_auto_auto] gap-5 items-center">
 <div>
 
-```ts {2-7|9|10|0}
-// pages/PaymentPage.ts
+```ts [qoomlee/app/web/e2e/pages/PaymentPage.ts] {2-7|9|10|0}
+// a business step: the whole card form, not one box
 async fillCreditCard(card: Card) {
   await this.enterCardName(card.name);
   await this.enterCardNumber(card.number);
@@ -313,9 +313,9 @@ await paymentPage.pay();
 
 <div class="dimmable" :class="{ dim: $clicks !== 4 }">
 
-```ts
-// data/card.ts: what TEST_CARD looks like (a test card, never a real one)
-export const TEST_CARD = {
+```ts [qoomlee/app/web/e2e/data/card.ts]
+// Omise TEST-mode card. Never a real card.
+export const TEST_CARD: Card = {
   name: 'Jane Doe', number: '4242 4242 4242 4242',
   expiry: '12/29',  cvv: '123',
 };
@@ -398,7 +398,7 @@ await page.getByRole('button',
   { name: /continue to payment/i }).click();
 ```
 
-```ts [workshop/flow/final/pages/PassengerPage.ts] {1-2|4-6|7|8-11|all}
+```ts [qoomlee/app/web/e2e/pages/PassengerPage.ts] {1-2|4-6|7|8-11|all}
 export class PassengerPage {
   constructor(private readonly page: Page) {}
 
@@ -441,7 +441,7 @@ export class PaymentPage {
   async pay() {
     await this.page.getByRole('button', { name: /pay .* securely/i }).click();
   }
-  async payWith(card: Card) { /* the six actions in order */ }
+  async payWith(card: Card) { /* fill the card, accept terms, pay */ }
 }
 
 // pages/ResultsPage.ts
@@ -472,7 +472,7 @@ class: compact
 
 # Step 3: hand the pages to tests with fixtures
 
-```ts [workshop/flow/final/fixtures/index.ts] {1-5|7-10|12-18|all}
+```ts [qoomlee/app/web/e2e/fixtures/index.ts] {1-5|7-10|12-18|all}
 type Fixtures = {
   passengerPage: PassengerPage;   // + search, results, payment, confirmation
   /** Already on the passenger form for the first BKK->SIN flight. */
@@ -544,7 +544,7 @@ class: compact
 # The same journey, before and after
 
 <div class="grid grid-cols-2 gap-5">
-<div class="label-bad">Before: 25 lines of how</div>
+<div class="label-bad">Before: 30 lines of how</div>
 <div class="label-good">After: 8 lines of what</div>
 
 ```ts
@@ -564,8 +564,8 @@ await expect(page.getByRole('heading',
   .toBeVisible({ timeout: 30_000 });
 ```
 
-```ts [workshop/flow/final/tests/journey.spec.ts] {all}
-test('book and pay @smoke', async ({
+```ts [qoomlee/app/web/e2e/tests/04-full-journey.spec.ts] {all}
+test('book and pay, get a confirmation @smoke', async ({
   onPassengerForm: form, paymentPage, confirmationPage,
 }) => {
   await form.fill(aPassenger());
@@ -592,10 +592,10 @@ layout: lab
 module: 7
 lab: 7
 minutes: 15
-solution: workshop/flow/final/ (pages, fixtures, data, tests)
+solution: qoomlee/app/web/e2e/ (pages, fixtures, data, tests)
 ---
 
-Refactor your `my/` tests into `workshop/flow/my-final/`.
+Refactor your `my/` tests into `qoomlee/app/web/e2e/tests/my-final/`.
 
 1. `PassengerPage` and `PaymentPage` (locators + one method per intent)
 2. A `fixtures/index.ts` with `passengerPage`, `paymentPage` and `onPassengerForm`
@@ -616,7 +616,7 @@ Move one block at a time: cut, paste into a method, call it, run. If red, undo t
 - Fixtures inject pages and shared setup; builders own data
 
 <!--
-SAY: 15 minutes. The rule is run the tests after EVERY move. Solution: workshop/flow/final/. If a pair is fast: add SearchPage and ResultsPage.
+SAY: 15 minutes. The rule is run the tests after EVERY move. Solution: qoomlee/app/web/e2e/. If a pair is fast: add SearchPage and ResultsPage.
 COMMON ISSUES: imports from the wrong `test` (must import from your fixtures file); `this.page` used before constructor assignment (property initializers need `private readonly page` shorthand).
 RECAP (click): SAY: three bullets. TIME: 1 min.
 NEXT: How do we organise all of this?

@@ -24,7 +24,7 @@ module: 0
 <!--
 SAY: Two halves. Until 2:05 we write ONE test, screen by screen, and it is allowed to be ugly. From 2:05 we refactor it into something a team can live with. You feel the pain first, then the pattern fixes it.
 Point at the bar on top: coloured per module, shows the clock.
-Q: "Do we get the slides and code?" Yes: workshop/flow/steps = every step, workshop/flow/final = the refactored result.
+Q: "Do we get the slides and code?" Yes: `make replay` walks every step commit by commit, qoomlee/app/web/e2e = the refactored result.
 TIME: 2 min.
 NEXT: Quick readiness check.
 -->
@@ -38,12 +38,12 @@ stepId: checklist
 # Pre-workshop checklist
 
 - **Node.js 20+** &nbsp; `node -v`
-- **Repo cloned**, then `cd workshop && npm install`
+- **Repo cloned**, then `cd qoomlee/app/web && bun install`
 - **Browsers**: `npx playwright install chromium`
 - **Backend**: `docker compose up -d --wait` in `qoomlee-challenge`
 - **App** on <http://localhost:3000/flights> (`bun run dev`)
 
-<StepCommand command="cd workshop && npm install && npx playwright install chromium" />
+<StepCommand command="cd qoomlee/app/web && bun install && bunx playwright install chromium" />
 
 <div class="small" style="margin-top:1rem">Your own project later: <code>npm init playwright@latest</code> does this setup for you.</div>
 

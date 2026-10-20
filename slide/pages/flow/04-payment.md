@@ -65,7 +65,7 @@ class: compact
 <div class="grid grid-cols-[minmax(0,1fr)_auto_auto] gap-5 items-center">
 <div>
 
-```ts {2|3-4|5|6|7|8|all}
+```ts [qoomlee/app/web/e2e/tests/03-passenger.spec.ts] {2|3-4|5|6|7|8|all}
 // Omise TEST card. Never a real one.
 await page.getByPlaceholder('e.g. Johnathan Doe').fill('Jane Doe');
 await page.getByPlaceholder('0000 0000 0000 0000')
@@ -109,9 +109,8 @@ class: compact
 <div class="grid grid-cols-[minmax(0,1fr)_auto_auto] gap-5 items-center">
 <div>
 
-```ts {1|3-5|all}
+```ts [qoomlee/app/web/e2e/tests/03-passenger.spec.ts] {1|2-4|all}
 await page.getByRole('button', { name: /pay .* securely/i }).click();
-
 // the gateway can take seconds: give THIS assertion more time
 await expect(page.getByRole('heading', { name: 'Booking Confirmed!' }))
   .toBeVisible({ timeout: 30_000 });
@@ -128,7 +127,7 @@ await expect(page.getByRole('heading', { name: 'Booking Confirmed!' }))
   { k: 'pay', at: 0, line: 1 },
 ]" />
 <PhoneShot src="12-confirmation" caption="...wait up to 30 s" :height="340" :marks="[
-  { k: 'heading', at: 1, line: 4 },
+  { k: 'heading', at: 1, line: 3 },
 ]" />
 </div>
 
@@ -143,7 +142,7 @@ layout: lab
 module: 4
 lab: 4
 minutes: 7
-solution: workshop/flow/steps/04-full-journey.spec.ts (payment section)
+solution: qoomlee/app/web/e2e/tests/03-passenger.spec.ts (payment section)
 ---
 
 Extend your Lab 3 happy-path test.
