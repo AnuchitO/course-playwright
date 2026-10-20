@@ -15,10 +15,13 @@ fonts:
   mono: Fira Code, JetBrains Mono, Menlo, monospace
 highlighter: shiki
 lineNumbers: false
+codeCopy: true
 drawings:
   persist: false
 transition: none
 ---
+
+<PlaywrightLogo />
 
 # Playwright for Qoomlee
 <div class="big-line" style="margin-top:2rem">Test the whole booking flow on a phone,<br>one screen at a time. Then make it clean.</div>

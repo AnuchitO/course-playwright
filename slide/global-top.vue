@@ -5,7 +5,7 @@ import setupShiki from '@slidev/client/setup/shiki.ts'
 
 // Workshop agenda: module number -> [label, start min, length min, color]
 const MODULES: Record<number, [string, number, number, string]> = {
-  0: ['0 Setup & the app', 0, 10, '#64748b'],
+  0: ['0 Setup & the app', 0, 10, '#65a30d'],
   1: ['1 Flight search', 10, 25, '#2563eb'],
   2: ['2 Flight results', 35, 20, '#d97706'],
   3: ['3 Booking & passenger', 65, 20, '#059669'],
@@ -24,7 +24,7 @@ const mod = computed<number | null>(() => (typeof fm.value.module === 'number' ?
 const info = computed(() => (mod.value === null ? null : MODULES[mod.value]))
 
 watchEffect(() => {
-  document.documentElement.style.setProperty('--m', info.value?.[3] ?? '#64748b')
+  document.documentElement.style.setProperty('--m', info.value?.[3] ?? '#65a30d')
 })
 
 
@@ -50,6 +50,7 @@ async function highlightInline() {
   for (const el of els) {
     el.dataset.hl = '1'
     const src = el.textContent ?? ''
+    if (SHELL.test(src)) el.dataset.copy = src
     const lang = SHELL.test(src) ? 'bash' : TS.test(src) ? 'ts' : null
     if (!lang) continue
     try {
@@ -67,7 +68,21 @@ async function highlightInline() {
     }
   }
 }
+// Click a command (inline `bun run …`) to copy it; the CSS ::after shows a Copy hint.
+async function copyInline(e: MouseEvent) {
+  const el = (e.target as HTMLElement | null)?.closest<HTMLElement>('code[data-copy]')
+  if (!el) return
+  try {
+    await navigator.clipboard.writeText(el.dataset.copy ?? '')
+    el.classList.add('copied')
+    setTimeout(() => el.classList.remove('copied'), 1200)
+  }
+  catch (err) {
+    console.error('[inline-copy]', err)
+  }
+}
 onMounted(() => {
+  document.addEventListener('click', copyInline)
   highlightInline()
   observer = new MutationObserver(() => {
     clearTimeout(timer)
@@ -75,7 +90,10 @@ onMounted(() => {
   })
   observer.observe(document.body, { childList: true, subtree: true })
 })
-onBeforeUnmount(() => { observer?.disconnect() })
+onBeforeUnmount(() => {
+  observer?.disconnect()
+  document.removeEventListener('click', copyInline)
+})
 </script>
 
 <template>

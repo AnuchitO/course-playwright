@@ -39,6 +39,7 @@ async function onCopy() {
     console.error('[step-command] clipboard write failed', error)
   }
   copied.value = true
+  setTimeout(() => { copied.value = false }, 1200)
 }
 </script>
 
@@ -47,8 +48,12 @@ async function onCopy() {
     <div v-if="command && highlighted" class="step-command-code" v-html="highlighted" />
     <code v-else-if="command" class="step-command-code">{{ command }}</code>
     <div class="step-command-actions">
-      <button v-if="command" type="button" class="step-command-button" @click="onCopy">
-        {{ copied ? 'Copied' : 'Copy' }}
+      <button v-if="command" type="button" class="step-command-button" :title="copied ? 'Copied' : 'Copy'" @click="onCopy">
+        <!-- Phosphor clipboard / check-circle: the same icons as the code-block copy button -->
+        <svg viewBox="0 0 256 256" width="22" height="22" fill="currentColor" aria-hidden="true">
+          <path v-if="copied" d="M173.66 98.34a8 8 0 0 1 0 11.32l-56 56a8 8 0 0 1-11.32 0l-24-24a8 8 0 0 1 11.32-11.32L112 148.69l50.34-50.35a8 8 0 0 1 11.32 0M232 128A104 104 0 1 1 128 24a104.11 104.11 0 0 1 104 104m-16 0a88 88 0 1 0-88 88a88.1 88.1 0 0 0 88-88" />
+          <path v-else d="M200 32h-36.26a47.92 47.92 0 0 0-71.48 0H56a16 16 0 0 0-16 16v168a16 16 0 0 0 16 16h144a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16m-72 0a32 32 0 0 1 32 32H96a32 32 0 0 1 32-32m72 184H56V48h26.75A47.9 47.9 0 0 0 80 64v8a8 8 0 0 0 8 8h80a8 8 0 0 0 8-8v-8a47.9 47.9 0 0 0-2.75-16H200Z" />
+        </svg>
       </button>
     </div>
   </div>
@@ -65,7 +70,8 @@ async function onCopy() {
 .step-command-code :deep(code) { background: transparent; white-space: pre; }
 .step-command-actions { display: flex; gap: 0.5em; flex: 0 0 auto; }
 .step-command-button {
-  padding: 0.25em 0.75em; border-radius: 6px; border: 1px solid rgba(128, 128, 128, 0.4);
-  background: transparent; color: inherit; cursor: pointer; font-size: 0.85em;
+  display: grid; place-items: center; padding: 0.3em; border-radius: 6px; border: none;
+  background: transparent; color: inherit; cursor: pointer; opacity: 0.6;
 }
+.step-command-button:hover { opacity: 1; }
 </style>
