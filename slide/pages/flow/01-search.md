@@ -21,15 +21,16 @@ stepId: m1-config
 
 # Step 0: run as a phone
 
-```ts [workshop/flow/playwright.config.ts] {1,3|5-9|all}
-import { defineConfig, devices } from '@playwright/test';
+```ts [qoomlee/app/web/e2e/playwright.config.ts] {1,3|7-10|all}
+import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
-  testDir: '.',
-  use: { baseURL: 'http://localhost:3000' },
+  testDir: "./tests",
+  reporter: [["list"], ["html", { open: "never" }]],
+  use: { baseURL: "http://localhost:3000" },
   projects: [
     // Chromium engine + iPhone 13 viewport, touch, user agent
-    { name: 'mobile', use: { ...devices['iPhone 13'], defaultBrowserType: 'chromium' } },
+    { name: "mobile", use: { ...devices["iPhone 13"], defaultBrowserType: "chromium" } },
   ],
 });
 ```
@@ -39,7 +40,7 @@ export default defineConfig({
 <!--
 SAY: One config line makes every test a phone test. Emulation is not a real device but it catches the layout and DOM differences, which is 90% of mobile bugs for a web app.
 We override defaultBrowserType so we do not need to install WebKit today. WebKit emulation of iPhone is one flag away later.
-DEMO: show workshop/flow/playwright.config.ts.
+DEMO: show qoomlee/app/web/e2e/playwright.config.ts.
 Q: "Real devices?" BrowserStack/real devices are a CI concern, not today.
 TIME: 3 min.
 NEXT: What we are looking at.
@@ -100,8 +101,8 @@ class: compact
 <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-8 items-center">
 <div>
 
-```ts [workshop/flow/steps/01-search.spec.ts] {1-3|4|5|6|all}
-import { test, expect } from '../../starter/helpers/fixtures';
+```ts [qoomlee/app/web/e2e/tests/01-search.spec.ts] {1-3|4|5|6|all}
+import { test, expect } from '@playwright/test';
 
 test('search BKK to SIN, one way', async ({ page }) => {
   await page.goto('/flights');
@@ -110,9 +111,9 @@ test('search BKK to SIN, one way', async ({ page }) => {
 });
 ```
 
-<StepCommand command="cd workshop && npx playwright test -c flow 01-search" />
+<StepCommand command="cd qoomlee/app/web && bun run test:e2e 01-search" />
 
-<div class="small"><code>fixtures</code> is workshop plumbing (lets the browser call our local API). Just import it.</div>
+<div class="small"><code>test</code> and <code>expect</code> come straight from <code>@playwright/test</code>. Nothing else to set up.</div>
 </div>
 <PhoneShot src="01-search-home" caption="what goto('/flights') opens" :height="400" :marks="[
   { k: 'heading', at: 2, line: 5 },
@@ -138,9 +139,9 @@ class: compact
 
 <div class="grid grid-cols-[minmax(0,1fr)_auto_auto] gap-5 items-center">
 
-```ts {1-5|6-7|9-11|12-13|all}
-// the first "Select city..." button is
-// always the next empty field
+```ts [qoomlee/app/web/e2e/tests/01-search.spec.ts] {1-5|6-7|9-11|12-13|all}
+// after the origin is chosen its button text changes,
+// so .first() is the destination next
 await page
   .getByRole('button', { name: /select city or airport/i })
   .first().click();
@@ -183,7 +184,7 @@ class: compact
 <div class="grid grid-cols-[minmax(0,1fr)_auto_auto] gap-5 items-center">
 <div>
 
-```ts {1-3|4|all}
+```ts [qoomlee/app/web/e2e/tests/01-search.spec.ts] {1-3|4|all}
 await page.getByText('Select date')
   .locator('visible=true')
   .click();
@@ -219,7 +220,7 @@ class: compact
 <div class="grid grid-cols-[minmax(0,1fr)_auto_auto] gap-5 items-center">
 <div>
 
-```ts {1|2-3|all}
+```ts [qoomlee/app/web/e2e/tests/01-search.spec.ts] {1|2-3|all}
 await page.getByRole('button', { name: 'Search Flights' }).click();
 await expect(page).toHaveURL(
   /\/flights\/results\/?\?.*origin=BKK.*destination=SIN/);
@@ -250,19 +251,20 @@ stepId: m1-run
 
 # Run it, and watch it
 
-<StepCommand command="cd workshop && npx playwright test -c flow 01-search --headed" />
+<StepCommand command="cd qoomlee/app/web && bun run test:e2e 01-search --headed" />
 
 ```txt
 Running 1 test using 1 worker
-  ✓  1 [mobile] › flow/steps/01-search.spec.ts:3:1 › search BKK to SIN, one way (3.1s)
+  ✓  1 [mobile] › tests/01-search.spec.ts:3:1 › search BKK to SIN, one way (3.1s)
   1 passed
 ```
 
 | Flag | What it does |
 |---|---|
 | `--headed` | show the (phone-sized) browser |
-| `--ui` | UI mode: time-travel through steps |
-| `npx playwright show-report` | HTML report of the last run |
+| `bun run test:e2e:ui` | UI mode: time-travel through steps |
+| `bun run test:e2e:ui:slow` | UI mode, every action slowed to 1 s (`SLOW_MO`) |
+| `npx playwright show-report e2e/playwright-report` | HTML report of the last run |
 
 <!--
 SAY: Run headless first, then --headed so they see the phone-size window fill the form by itself. This is the moment it clicks for most people.
@@ -276,10 +278,10 @@ layout: lab
 module: 1
 lab: 1
 minutes: 10
-solution: workshop/flow/steps/01-search.spec.ts
+solution: qoomlee/app/web/e2e/tests/01-search.spec.ts
 ---
 
-Create `workshop/flow/my/01-search.spec.ts`.
+Create `qoomlee/app/web/e2e/tests/my/01-search.spec.ts`.
 
 1. Open `/flights`, choose **One way**
 2. From **BKK**, To **SIN**
@@ -300,7 +302,7 @@ Stuck on a locator? `npx playwright codegen --device="iPhone 13" http://localhos
 - Strict mode = Playwright refuses to guess between two matches
 
 <!--
-SAY: 10 minutes, pairs. Faster pairs do the bonus route. Solution is workshop/flow/steps/01-search.spec.ts.
+SAY: 10 minutes, pairs. Faster pairs do the bonus route. Solution is qoomlee/app/web/e2e/tests/01-search.spec.ts.
 LAB TIMING: 10 min. At 7 min show the hint on screen. Walk the room; the common block is the date picker.
 COMMON ISSUES: forgot "One way"; copied desktop locator "Select origin"; strict mode on date.
 RECAP (click): SAY: three bullets, one participant names the locator that surprised them. TIME: 1 min.

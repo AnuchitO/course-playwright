@@ -39,7 +39,7 @@ Received: <element(s) not found>
 ### 2. UI mode
 Time travel: click a step, see the DOM and screenshot at that moment.
 
-<StepCommand command="npx playwright test -c flow --ui" />
+<StepCommand command="cd qoomlee/app/web && bun run test:e2e:ui" />
 </div>
 <div>
 
@@ -50,11 +50,11 @@ A recording of a failed CI run. Open it locally.
 </div>
 </div>
 
-<div class="small" style="margin-top:1rem">Config: <code>use: { trace: 'on-first-retry' }</code> records a trace when a failed test is retried (set <code>retries</code> in CI). Cheap, and exactly when you need it.</div>
+<div class="small" style="margin-top:1rem">Config (<code>e2e/playwright.config.ts</code>): <code>use: { trace: 'on-first-retry' }</code> records a trace when a failed test is retried (set <code>retries</code> in CI). Cheap, and exactly when you need it.</div>
 
 <!--
 SAY: Order matters. 80% of failures are solved by reading the error: a locator that matched nothing or two things. Then UI mode when you need to see it. Then traces for failures you cannot reproduce, like CI.
-DEMO (5 min): break a locator in 04-full-journey (change 'Pay' regex), run --ui, click the failed step, show the DOM snapshot and the highlighted locator. Then run `--debug` to open the Inspector and step with F10.
+DEMO (5 min): break a locator in 04-full-journey (change 'Pay' regex), run `bun run test:e2e:ui`, click the failed step, show the DOM snapshot and the highlighted locator. Then run `bun run test:e2e --debug` to open the Inspector and step with F10.
 Q: "Where do screenshots go?" test-results/ and the HTML report, `screenshot: 'only-on-failure'` in config.
 TIME: 5 min.
 NEXT: Debug the locators.
