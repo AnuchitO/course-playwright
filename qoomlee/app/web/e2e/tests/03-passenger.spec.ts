@@ -22,4 +22,6 @@ test('email without @ is rejected', async ({ page }) => {
   await page.getByPlaceholder('john.doe@example.com').fill('not-an-email');
   await page.getByPlaceholder('000 000 000').fill('0800000000');
   await page.getByRole('button', { name: /continue to payment/i }).click();
+  await expect(page.getByText('Valid email required')).toBeVisible();
+  await expect(page).toHaveURL(/\/bookings\/new/);
 });
