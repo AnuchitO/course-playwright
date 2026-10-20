@@ -5,6 +5,7 @@
   "scripts": {
     "build": "slidev build",
     "dev": "slidev --open",
+    "dev:local": "slidev slides-local.md --open",
     "export": "slidev export"
   },
   "dependencies": {
