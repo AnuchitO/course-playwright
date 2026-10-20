@@ -4,8 +4,8 @@ title: Playwright E2E for Qoomlee (mobile flow)
 info: |
   3-hour hands-on Playwright workshop. We test the whole Qoomlee booking flow on a
   phone viewport, step by step, then refactor it to Page Objects.
-addons:
-  - slidev-addon-muan-companion
+# addons:
+#   - slidev-addon-muan-companion
 colorSchema: auto
 aspectRatio: 16/9
 canvasWidth: 1100

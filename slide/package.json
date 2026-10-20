@@ -5,7 +5,7 @@
   "scripts": {
     "build": "slidev build",
     "dev": "slidev --open",
-    "dev:local": "slidev slides-local.md --open",
+    "dev:local": "cp fallback/StepCommand.vue components/StepCommand.vue && slidev slides-local.md --open; rm -f components/StepCommand.vue",
     "export": "slidev export"
   },
   "dependencies": {
