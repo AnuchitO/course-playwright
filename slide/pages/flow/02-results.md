@@ -95,7 +95,7 @@ test('results list QM101', async ({ page, request }) => {
     `/flights/results?origin=BKK&destination=SIN&departure=${day}&passengers=1&cabin=economy`,
   );
 
-  await expect(page.getByText('QM101')).toBeVisible();
+  await expect(page.getByText('QM101').first()).toBeVisible();
   await expect(page.getByText('BKK → SIN')).toBeVisible();
 });
 ```
@@ -110,7 +110,7 @@ test('results list QM101', async ({ page, request }) => {
 
 <!--
 SAY: `request` is Playwright's API client. firstDepartureDate asks the backend for the first day with BKK to SIN flights, so the test never goes stale. Never hard-code "2026-10-16": it is red in a month.
-Notice what we assert: the flight number and the route. Two facts a user would check.
+Notice what we assert: the flight number and the route. `QM101` is rendered twice on the page, so `getByText('QM101')` alone fails with a strict mode violation; `.first()` picks one on purpose. Two facts a user would check.
 Q: "Is calling the API from a UI test cheating?" For setup and data, no. For the thing under test, yes. We only use it to pick a date.
 TIME: 4 min.
 NEXT: Auto-wait.
@@ -214,7 +214,7 @@ Create `qoomlee/app/web/e2e/tests/my/02-results.spec.ts`.
 - [ ] Bonus: assert the price text `4,200`
 
 ::hint::
-`getByText('QM101')` is enough. Add `.first()` only if strict mode complains.
+`getByText('QM101').first()` is enough: the flight number shows up twice on the card, so strict mode needs `.first()`.
 
 ::recap::
 - The URL is state: **teleport** to a screen instead of clicking there
