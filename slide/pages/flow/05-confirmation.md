@@ -168,16 +168,17 @@ stepId: m5-run
 ```txt
   ✓  [mobile] › tests/02-results.spec.ts   results list QM101, selecting it opens the booking form (1.0s)
   ✓  [mobile] › tests/03-passenger.spec.ts empty form shows required errors (1.6s)
+  ✓  [mobile] › tests/03-passenger.spec.ts email without @ is rejected (1.7s)
   ✓  [mobile] › tests/03-passenger.spec.ts valid passenger details move on to payment and pay (4.2s)
   ✓  [mobile] › tests/01-search.spec.ts    search BKK to SIN, one way (3.1s)
   ✓  [mobile] › tests/04-full-journey.spec.ts  full journey: search results to confirmation @smoke (5.0s)
-  5 passed (5.6s)
+  6 passed (6.0s)
 ```
 
-<div class="small">5 tests, 5.6 s, 5 workers. A manual run of the same flow takes a person about 3 minutes, every time.</div>
+<div class="small">6 tests, 6 s, 4 workers. A manual run of the same flow takes a person about 3 minutes, every time.</div>
 
 <!--
-SAY: Celebrate for ten seconds. We built a real E2E suite: search, results, validation, and the full purchase. 5.6 seconds.
+SAY: Celebrate for ten seconds. We built a real E2E suite: search, results, validation, and the full purchase. About 6 seconds.
 TIME: 2 min.
 NEXT: But look at the code.
 -->

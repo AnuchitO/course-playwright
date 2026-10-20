@@ -460,6 +460,38 @@ export class ResultsPage {
 <!--
 SAY: Same recipe five times: Search, Results, Passenger, Payment, Confirmation. Notice ConfirmationPage has only locators: not every page needs actions. The ResultsPage owns the URL building, so the query string lives in ONE place.
 TIME: 5 min.
+NEXT: Test data.
+-->
+
+---
+layout: default
+module: 7
+stepId: m7-data
+---
+
+# Step 3: test data in one place
+
+```ts
+// data/passenger.ts
+export const aPassenger = (over: Partial<Passenger> = {}): Passenger => ({
+  firstName: 'Jane',
+  lastName: 'Doe',
+  email: `jane+${Date.now()}@test.com`, // unique per call
+  phone: '0800000000',
+  ...over,
+});
+
+// data/card.ts
+export const TEST_CARD: Card = { name: 'Jane Doe', number: '4242 4242 4242 4242', expiry: '12/29', cvv: '123' };
+```
+
+```ts
+await form.fill(aPassenger({ email: 'not-an-email' })); // only say what is special
+```
+
+<!--
+SAY: A builder gives sane defaults and lets the test override just the interesting field. The test then says only what matters: "an invalid email". Magic strings leave the tests.
+TIME: 3 min.
 NEXT: Fixtures.
 -->
 
@@ -470,7 +502,7 @@ stepId: m7-fixtures
 class: compact
 ---
 
-# Step 3: hand the pages to tests with fixtures
+# Step 4: hand the pages to tests with fixtures
 
 ```ts [qoomlee/app/web/e2e/fixtures/index.ts] {1-5|7-10|12-18|all}
 type Fixtures = {
@@ -499,38 +531,6 @@ export const test = base.extend<Fixtures>({
 SAY: A fixture is dependency injection for tests: the test declares what it needs in its argument list and Playwright builds it. `onPassengerForm` replaces the whole beforeEach from module 3, and can be reused in every file. Before `use` = setup, after = teardown.
 Q: "Why not `new PassengerPage(page)` in each test?" You can; fixtures remove the noise and make setup shareable.
 TIME: 5 min.
-NEXT: Data.
--->
-
----
-layout: default
-module: 7
-stepId: m7-data
----
-
-# Step 4: test data in one place
-
-```ts
-// data/passenger.ts
-export const aPassenger = (over: Partial<Passenger> = {}): Passenger => ({
-  firstName: 'Jane',
-  lastName: 'Doe',
-  email: `jane+${Date.now()}@test.com`, // unique per call
-  phone: '0800000000',
-  ...over,
-});
-
-// data/card.ts
-export const TEST_CARD: Card = { name: 'Jane Doe', number: '4242 4242 4242 4242', expiry: '12/29', cvv: '123' };
-```
-
-```ts
-await form.fill(aPassenger({ email: 'not-an-email' })); // only say what is special
-```
-
-<!--
-SAY: A builder gives sane defaults and lets the test override just the interesting field. The test then says only what matters: "an invalid email". Magic strings leave the tests.
-TIME: 3 min.
 NEXT: The result.
 -->
 
@@ -598,8 +598,8 @@ solution: qoomlee/app/web/e2e/ (pages, fixtures, data, tests)
 Refactor your `my/` tests into `qoomlee/app/web/e2e/tests/my-final/`.
 
 1. `PassengerPage` and `PaymentPage` (locators + one method per intent)
-2. A `fixtures/index.ts` with `passengerPage`, `paymentPage` and `onPassengerForm`
-3. `aPassenger()` and `TEST_CARD`
+2. `aPassenger()` and `TEST_CARD`
+3. A `fixtures/index.ts` with `passengerPage`, `paymentPage` and `onPassengerForm`
 4. Rewrite the journey in **8 lines or fewer**
 
 ::criteria::

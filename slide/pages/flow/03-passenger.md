@@ -56,20 +56,30 @@ stepId: m3-errors
 class: compact
 ---
 
-# Step 2: the empty form (sad path)
+# Step 2: the sad paths
 
 <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-8 items-center">
 <div>
 
-```ts [qoomlee/app/web/e2e/tests/03-passenger.spec.ts] {1|2|3|4|all}
+```ts [qoomlee/app/web/e2e/tests/03-passenger.spec.ts] {1|2|3|4|7-12|13-14|all}
 test('empty form shows required errors', async ({ page }) => {
   await page.getByRole('button', { name: /continue to payment/i }).click();
   await expect(page.getByText('Required', { exact: true })).toHaveCount(3);
   await expect(page.getByText('Valid email required')).toBeVisible();
 });
+
+test('email without @ is rejected', async ({ page }) => {
+  await page.getByPlaceholder('e.g. John').fill('Jane');
+  await page.getByPlaceholder('e.g. Doe').fill('Doe');
+  await page.getByPlaceholder('john.doe@example.com').fill('not-an-email');
+  await page.getByPlaceholder('000 000 000').fill('0800000000');
+  await page.getByRole('button', { name: /continue to payment/i }).click();
+  await expect(page.getByText('Valid email required')).toBeVisible();
+  await expect(page).toHaveURL(/\/bookings\/new/);
+});
 ```
 
-<div class="small" style="margin-top:0.8rem"><code>toHaveCount(3)</code>: first name, last name, phone. <code>exact: true</code> stops "Required" matching longer texts.</div>
+<div class="small" style="margin-top:0.8rem"><code>toHaveCount(3)</code>: first name, last name, phone. <code>exact: true</code> stops "Required" matching longer texts.<br>Second test: everything valid <b>except</b> the email, so it has exactly one reason to fail.</div>
 </div>
 <PhoneShot src="08-booking-errors" caption="submit with nothing typed" :height="400" :marks="[
   { k: 'cont', at: 1, line: 2 },
@@ -83,6 +93,7 @@ test('empty form shows required errors', async ({ page }) => {
 <!--
 SAY: No typing at all: press continue, expect the errors. Three "Required" plus an email format message. Counting is a stable way to check "on every field" without ten locators.
 Why sad path first: it is 3 lines and no data. Free coverage.
+Then the bad email: fill the other fields validly and put the bad value only in email. It must show the error AND stay on /bookings/new.
 TIME: 3 min.
 NEXT: The happy path.
 -->
@@ -146,13 +157,14 @@ Run from the app folder; the filter `03-passenger` picks the spec file:
 <StepCommand command="cd qoomlee/app/web && bun run test:e2e 03-passenger" />
 
 ```txt
-Running 2 tests using 2 workers
+Running 3 tests using 3 workers
   ✓  1 [mobile] › tests/03-passenger.spec.ts:13:1 › empty form shows required errors (1.8s)
-  ✓  2 [mobile] › tests/03-passenger.spec.ts:19:1 › valid passenger details move on to payment (1.9s)
-  2 passed
+  ✓  2 [mobile] › tests/03-passenger.spec.ts:19:1 › email without @ is rejected (1.9s)
+  ✓  3 [mobile] › tests/03-passenger.spec.ts:29:1 › valid passenger details move on to payment (1.9s)
+  3 passed
 ```
 
-<div class="small" style="margin-top:1rem">Both tests ran in <b>parallel</b>, each in its own browser context, each starting from <code>beforeEach</code>.</div>
+<div class="small" style="margin-top:1rem">All three tests ran in <b>parallel</b>, each in its own browser context, each starting from <code>beforeEach</code>.</div>
 
 <!--
 SAY: Point at the two workers. Independent tests are what make parallelism possible.
