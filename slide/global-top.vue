@@ -27,8 +27,6 @@ watchEffect(() => {
   document.documentElement.style.setProperty('--m', info.value?.[3] ?? '#64748b')
 })
 
-const fmt = (m: number) => `${Math.floor(m / 60)}:${String(m % 60).padStart(2, '0')}`
-const hh = computed(() => (info.value ? `${fmt(info.value[1])} - ${fmt(info.value[1] + info.value[2])}` : ''))
 
 const segments = computed(() => {
   const segs = Object.entries(MODULES).map(([k, v]) => ({ k: Number(k), start: v[1], len: v[2], color: v[3] }))
@@ -90,7 +88,6 @@ onBeforeUnmount(() => { observer?.disconnect() })
     </div>
     <div class="row">
       <span class="name" :style="{ color: info[3] }">Module {{ info[0] }}</span>
-      <span class="time">{{ hh }} &middot; {{ info[2] }} min</span>
       <span class="count">{{ currentSlideNo }} / {{ total }} &middot; {{ pct }}%</span>
     </div>
   </div>
@@ -101,6 +98,5 @@ onBeforeUnmount(() => { observer?.disconnect() })
 .bar { display: flex; gap: 3px; height: 8px; }
 .seg { border-radius: 4px; }
 .row { display: flex; gap: 1rem; font-size: 0.78rem; margin-top: 0.2rem; font-weight: 700; }
-.time { color: var(--muted); }
 .count { margin-left: auto; color: var(--muted); }
 </style>

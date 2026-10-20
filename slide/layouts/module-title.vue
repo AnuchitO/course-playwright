@@ -7,7 +7,6 @@ const { $frontmatter: fm } = useSlideContext()
   <div class="slidev-layout module-title">
     <div class="num">{{ fm.module }}</div>
     <div class="body">
-      <div class="tag">{{ fm.time }}</div>
       <h1>{{ fm.heading }}</h1>
       <div class="thai">{{ fm.thai }}</div>
       <p class="problem">{{ fm.problem }}</p>
