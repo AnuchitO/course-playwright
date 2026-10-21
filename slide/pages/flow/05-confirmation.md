@@ -180,23 +180,7 @@ stepId: m5-run
 <!--
 SAY: Celebrate for ten seconds. We built a real E2E suite: search, results, validation, and the full purchase. About 6 seconds.
 TIME: 2 min.
-NEXT: But look at the code.
--->
-
----
-layout: challenge
-module: 5
-solution: qoomlee/app/web/e2e/pages/PassengerPage.ts (module 7: one Page Object owns the placeholder)
----
-
-The placeholder `e.g. John` changes to `First name`. Now fix it in <code>03-passenger.spec.ts</code>, <code>04-full-journey.spec.ts</code> and the next five files you write. Miss one and CI is red.
-
-<div class="small" style="margin-top:1.2rem">Try it: change the placeholder, then run <code>cd qoomlee/app/web && bun run test:e2e</code> and count the red tests.</div>
-
-<!--
-SAY: Look at what we have: the same 4 lines to fill a passenger in two files, the same card lines in the journey, the same results URL in four files. Every UI change touches every file. That is the pain module 7 removes, but first: what do you do when a test goes red?
-TIME: 1 min.
-NEXT: Lab 5, then debugging.
+NEXT: Lab 5.
 -->
 
 ---
@@ -230,5 +214,137 @@ Copy the steps from labs 2 to 4 in order. Do not refactor yet; we feel the pain 
 <!--
 SAY: 8 minutes. Do NOT let them refactor early. The goal is the pain in the last bonus bullet.
 RECAP (click): SAY: ask for hands: who found a line they would hate to change. That is our module 7 agenda. TIME: 1 min.
-NEXT: Debugging, then the refactor.
+NEXT: A new challenge.
+-->
+
+---
+layout: challenge
+module: 5
+stepId: m5-challenge
+solution: the next three slides, and qoomlee/app/web/e2e/pages/PassengerPage.ts in module 7
+---
+
+The product team changes the first-name placeholder from `e.g. John` to `First name`. Does our suite notice? Does it tell us **where**?
+
+<!--
+SAY: The suite is green and we are proud. Then a designer changes one word in the app. Let's see what happens. Next three demo steps: it goes RED on purpose, we fix it the quick way, then the proper way.
+TIME: 1 min.
+NEXT: Watch it break.
+-->
+
+---
+layout: default
+module: 5
+stepId: m5-red
+class: compact
+---
+
+# Step 1: the app changes, the tests go red
+
+<div class="grid grid-cols-2 gap-5">
+<div>
+
+```tsx [qoomlee/app/web/app/bookings/new/BookingClient.tsx] {3}
+<input
+  type="text"
+  placeholder="First name"
+  value={firstName}
+/>
+```
+
+<StepCommand command="cd qoomlee/app/web && bun run test:e2e" />
+
+</div>
+<div>
+
+```txt
+  1) 03-passenger.spec.ts:29 › valid passenger details...
+     Error: locator.fill: Test timeout of 30000ms exceeded.
+     - waiting for getByPlaceholder('e.g. John')
+
+  3 failed
+    03-passenger.spec.ts:19  email without @ is rejected
+    03-passenger.spec.ts:29  valid passenger details...
+    04-full-journey.spec.ts:4  full journey @smoke
+  3 passed
+```
+
+</div>
+</div>
+
+<div class="small">Red <b>on purpose</b>: the commit changes only the app. The tests still look for <code>e.g. John</code>, a text that no longer exists. Note it took 30 s per test to find out.</div>
+
+<!--
+SAY: The behaviour did not change, only a word. But three tests are red, and each one waited 30 s before giving up. Read the call log: "waiting for getByPlaceholder('e.g. John')". The message tells us exactly what to fix.
+Git: the demo commit "Challenge 1/3" is intentionally red.
+TIME: 3 min.
+NEXT: The quick fix.
+-->
+
+---
+layout: default
+module: 5
+stepId: m5-quick
+---
+
+# Step 2: the quick fix, edit every place
+
+```diff [qoomlee/app/web/e2e/tests/03-passenger.spec.ts] {1|2|all}
+- await page.getByPlaceholder('e.g. John').fill('Jane');
++ await page.getByPlaceholder('First name').fill('Jane');
+```
+
+<div class="small">Same change in <code>03-passenger.spec.ts</code> (2 places) and <code>04-full-journey.spec.ts</code> (1 place). Green again:</div>
+
+<StepCommand command="cd qoomlee/app/web && bun run test:e2e" />
+
+<div class="small" style="margin-top:0.8rem">It works, but we touched 3 lines in 2 files for one word. And the next copy change breaks them again.</div>
+
+<!--
+SAY: Easy fix: find, replace, green. But we are still tied to the wording. The next time marketing changes the placeholder we are back here. A placeholder is decoration, not identity.
+TIME: 2 min.
+NEXT: The proper fix.
+-->
+
+---
+layout: default
+module: 5
+stepId: m5-proper
+class: compact
+---
+
+# Step 3: the proper fix, find it by its label
+
+<div class="grid grid-cols-2 gap-5">
+<div>
+
+```tsx [qoomlee/app/web/app/bookings/new/BookingClient.tsx] {1|3|all}
+<label htmlFor="first-name">First Name</label>
+<input
+  id="first-name"
+  placeholder="First name"
+/>
+```
+
+</div>
+<div>
+
+```ts [qoomlee/app/web/e2e/tests/03-passenger.spec.ts] {all}
+await page
+  .getByLabel('First Name')
+  .fill('Jane');
+```
+
+</div>
+</div>
+
+<div class="small" style="margin-top:0.8rem">The label is what the user reads and what a screen reader announces, so it survives placeholder rewrites. No label in your app? Add a <code>data-testid</code> and use <code>getByTestId</code>.</div>
+
+<StepCommand command="cd qoomlee/app/web && bun run test:e2e" />
+
+<!--
+SAY: The label was never connected to the input: no htmlFor, no id. That is an accessibility bug as well as a testing problem. Fixing the app makes it better for users and for tests. This is why role > label > text > test id.
+Next module we make sure only ONE file knows this locator.
+TIME: 3 min.
+NEXT: What to do when a test goes red: debugging.
 -->

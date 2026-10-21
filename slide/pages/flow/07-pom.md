@@ -88,7 +88,7 @@ export class PassengerPage {
   constructor(private readonly page: Page) {}
 
   async enterFirstName(name: string) {
-    await this.page.getByPlaceholder('e.g. John').fill(name);
+    await this.page.getByLabel('First Name').fill(name);
   }
   async enterLastName(name: string) {
     await this.page.getByPlaceholder('e.g. Doe').fill(name);
@@ -386,7 +386,7 @@ class: compact
 <div class="label-good">After: pages/PassengerPage.ts</div>
 
 ```ts
-await page.getByPlaceholder('e.g. John')
+await page.getByLabel('First Name')
   .fill('Jane');
 await page.getByPlaceholder('e.g. Doe')
   .fill('Doe');
@@ -403,7 +403,7 @@ export class PassengerPage {
   constructor(private readonly page: Page) {}
 
   async enterFirstName(name: string) {
-    await this.page.getByPlaceholder('e.g. John').fill(name);
+    await this.page.getByLabel('First Name').fill(name);
   }
   // ... last name, email, phone
   async continueToPayment() {
@@ -551,7 +551,7 @@ class: compact
 await page.goto(`/flights/results?...`);
 await page.getByRole('button',
   { name: /select/i }).first().click();
-await page.getByPlaceholder('e.g. John')
+await page.getByLabel('First Name')
   .fill('Jane');
 // ... 3 more passenger fields
 await page.getByRole('button',
