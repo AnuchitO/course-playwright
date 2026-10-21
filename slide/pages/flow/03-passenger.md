@@ -126,7 +126,7 @@ test('valid passenger details move on to payment', async ({ page }) => {
 </div>
 <PhoneShot src="09-booking-filled" caption="filled" :height="330" :marks="[
   { k: 'first', at: 1, line: 2 },
-  { k: 'last', at: 1, line: 3 },
+  { k: 'last', at: 1, line: 3, side: 'top' },
   { k: 'email', at: 1, line: 4 },
   { k: 'phone', at: 1, line: 5 },
   { k: 'cont', at: 2, line: 6 },

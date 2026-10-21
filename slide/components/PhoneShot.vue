@@ -11,9 +11,10 @@ import marksData from './marks.json'
  *   line  1-based line of the code block on this slide the arrow starts from
  *   block which code block on the slide (default 0)
  *   from  or any CSS selector (e.g. a list item) to start the arrow from
+ *   side  'top': land on the top edge of the box and point down (for a box right of another one)
  *   edge  start the arrow at the code block's right edge instead of the end of the line
  */
-type Mark = { k: string; at?: number; line?: number; block?: number; from?: string; edge?: boolean }
+type Mark = { k: string; at?: number; line?: number; block?: number; from?: string; edge?: boolean; side?: 'left' | 'top' }
 const props = withDefaults(defineProps<{ src: string; caption?: string; height?: number; marks?: Mark[] }>(), { height: 440, marks: () => [] })
 
 // works under a sub-path deploy (GitHub Pages: /course-playwright/)
@@ -31,7 +32,7 @@ const items = computed(() =>
 
 const root = ref<HTMLElement | null>(null)
 const frame = ref<HTMLElement | null>(null)
-type Arrow = { id: number; d: string; ax: number; ay: number }
+type Arrow = { id: number; d: string; ax: number; ay: number; top?: boolean }
 const arrows = ref<Arrow[]>([])
 
 function scaleOf(el: HTMLElement) {
@@ -64,7 +65,11 @@ function layoutArrows() {
     if ((m.at ?? 0) !== clicks.value || (!m.line && !m.from)) continue
     const a = anchorOf(layout, m)
     if (!a) continue
-    let sx = (a.right - rr.left) / s + 8
+    // a line longer than the code box scrolls out of view: start at the visible edge instead
+    const box = layout.querySelectorAll('.slidev-code')[m.block ?? 0]
+    const clip = box ? (box.getBoundingClientRect().right - rr.left) / s - 8 : Infinity
+    let sx = Math.min((a.right - rr.left) / s + 8, clip)
+    const startX = sx
     const sy = (a.top + a.height / 2 - rr.top) / s
     // edge: run straight along the (empty) end of the line to the code block's right edge, then curve
     let lead = ''
@@ -72,8 +77,14 @@ function layoutArrows() {
       const blk = layout.querySelectorAll('.slidev-code')[m.block ?? 0]
       if (blk) { const ex = (blk.getBoundingClientRect().right - rr.left) / s - 8; if (ex > sx) { lead = `L ${ex} ${sy} `; sx = ex } }
     }
-    const startX = (a.right - rr.left) / s + 8
     const [bx, by, bw, bh] = m.box!
+    if (m.side === 'top') {
+      const cx = (fr.left - rr.left) / s + (fr.width / s) * ((bx + bw / 2) / 100)
+      const ey = (fr.top - rr.top) / s + (fr.height / s) * (by / 100) - 4
+      const w = Math.max(40, cx - sx)
+      out.push({ id: m.i, d: `M ${startX} ${sy} ${lead}C ${sx + w * 0.6} ${sy}, ${cx} ${sy}, ${cx} ${ey - 9}`, ax: cx, ay: ey, top: true })
+      continue
+    }
     const tx = (fr.left - rr.left) / s + (fr.width / s) * (bx / 100) - 4
     const ty = (fr.top - rr.top) / s + (fr.height / s) * ((by + bh / 2) / 100)
     const dx = Math.max(40, tx - sx)
@@ -111,7 +122,7 @@ watch(items, schedule, { deep: false })
     <svg class="arrows" width="1" height="1">
       <g v-for="a in arrows" :key="a.id">
         <path :d="a.d" pathLength="1" class="line" />
-        <polygon :points="`${a.ax - 11},${a.ay - 6} ${a.ax - 1},${a.ay} ${a.ax - 11},${a.ay + 6}`" class="head" />
+        <polygon :points="a.top ? `${a.ax - 6},${a.ay - 11} ${a.ax},${a.ay - 1} ${a.ax + 6},${a.ay - 11}` : `${a.ax - 11},${a.ay - 6} ${a.ax - 1},${a.ay} ${a.ax - 11},${a.ay + 6}`" class="head" />
       </g>
     </svg>
   </figure>
