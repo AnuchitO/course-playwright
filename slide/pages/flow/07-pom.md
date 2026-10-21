@@ -288,8 +288,7 @@ class: compact
 <div class="grid grid-cols-[minmax(0,1fr)_auto_auto] gap-5 items-center">
 <div>
 
-```ts [qoomlee/app/web/e2e/pages/PaymentPage.ts] {2-7|9|10|0}
-// a business step: the whole card form, not one box
+```ts [qoomlee/app/web/e2e/pages/PaymentPage.ts] {1-6|8|9|0}
 async fillCreditCard(card: Card) {
   await this.enterCardName(card.name);
   await this.enterCardNumber(card.number);
@@ -325,17 +324,17 @@ export const TEST_CARD: Card = {
 
 <v-click at="4"><span></span></v-click>
 
-<div class="small" style="margin-top:0.6rem"><b>Too small:</b> four <code>enter…</code> calls in every test. <b>Just right:</b> <code>fillCreditCard</code>, the way a person says it: "fill out the card form". <b>Too big:</b> <code>bookAndPayEverything()</code> crosses screens and hides the flow.</div>
+<div class="small" style="margin-top:0.5rem"><b>Too small:</b> four <code>enter…</code> calls per test. <b>Just right:</b> <code>fillCreditCard</code>. <b>Too big:</b> <code>bookAndPayEverything()</code> hides the flow.</div>
 </div>
 <PhoneShot src="11-payment-card" caption="fillCreditCard" :height="300" :marks="[
-  { k: 'name', at: 0, line: 2 },
-  { k: 'number', at: 0, line: 2 },
-  { k: 'expiry', at: 0, line: 2 },
-  { k: 'cvv', at: 0, line: 2 },
+  { k: 'name', at: 0, line: 1 },
+  { k: 'number', at: 0, line: 1 },
+  { k: 'expiry', at: 0, line: 1 },
+  { k: 'cvv', at: 0, line: 1 },
 ]" />
 <PhoneShot src="11b-payment-pay" caption="terms + pay" :height="300" :marks="[
-  { k: 'terms', at: 1, line: 9 },
-  { k: 'pay', at: 2, line: 10 },
+  { k: 'terms', at: 1, line: 8 },
+  { k: 'pay', at: 2, line: 9 },
 ]" />
 </div>
 
