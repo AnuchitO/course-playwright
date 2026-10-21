@@ -15,8 +15,7 @@ const { $frontmatter: fm } = useSlideContext()
     </div>
     <div class="hint"><b>Hint:</b> <slot name="hint" /></div>
     <div v-click class="recap"><span class="tag">6 · RECAP</span><slot name="recap" /></div>
-    <div v-if="fm.solution" class="stuck">Stuck? The solution is in <code>{{ fm.solution }}</code> &middot; add it to your folder: <code>git checkout lab-{{ fm.lab }}-solution -- qoomlee/app/web/e2e</code></div>
-    <div v-else class="stuck">Stuck? The solution is on branch <code>lab-{{ fm.lab }}-solution</code> &middot; <code>workshop/solutions/lab-{{ fm.lab }}</code> &middot; instructions: <code>workshop/labs/lab-{{ fm.lab }}.md</code></div>
+    <div class="stuck">Stuck? The solution is in <code>{{ fm.solution }}</code> &middot; add it to your folder: <code>git checkout lab-{{ fm.lab }}-solution -- qoomlee/app/web/e2e</code></div>
   </div>
 </template>
 

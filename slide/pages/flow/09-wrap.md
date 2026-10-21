@@ -51,10 +51,10 @@ module: 9
 | Debug | `--ui`, `--debug`, `codegen --device`, `show-trace` |
 | Structure | `pages/` `fixtures/` `data/` `tests/`: tests import fixtures and data only |
 
-<div class="small">Handout: <code>workshop/handout.md</code> · Code: <code>make replay</code> (every step, commit by commit) and <code>qoomlee/app/web/e2e</code> (refactored)</div>
+<div class="small">Code: <code>make replay</code> (every step, commit by commit) and <code>qoomlee/app/web/e2e</code> (refactored)</div>
 
 <!--
-SAY: Photograph this slide. The handout has the long version.
+SAY: Photograph this slide. 
 TIME: 2 min.
 NEXT: Where to go next.
 -->
@@ -76,6 +76,6 @@ module: 9
 <div class="big-line" style="margin-top:1.5rem">Thank you. Questions?</div>
 
 <!--
-SAY: Park everything we did not cover here, pick the one that matches your project's pain. The classic deck (slides-classic.md) covers mocking and CI in depth.
+SAY: Park everything we did not cover here, pick the one that matches your project's pain.
 TIME: 3 min. Leave 2 min for questions.
 -->
