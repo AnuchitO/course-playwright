@@ -147,6 +147,8 @@ projects: [
 | `bun run test:e2e --project=mobile` | one viewport |
 | `bun run test:e2e` | nightly, everything |
 
+<StepCommand command="cd qoomlee/app/web && bun run test:e2e --grep @smoke" />
+
 <div class="small">Careful: locators differ per viewport (<code>Select city or airport</code> vs <code>Select origin</code>). When a page differs a lot between mobile and desktop, give the Page Object an <code>isMobile</code> branch or split the class.</div>
 
 <!--

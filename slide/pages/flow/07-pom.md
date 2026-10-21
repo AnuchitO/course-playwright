@@ -588,6 +588,37 @@ NEXT: Your turn.
 -->
 
 ---
+layout: default
+module: 7
+stepId: m7-run
+---
+
+# Run it: still green
+
+Refactoring changes the shape, not the behaviour. Run the whole suite:
+
+<StepCommand command="cd qoomlee/app/web && bun run test:e2e" />
+
+```txt
+Running 6 tests using 4 workers
+  ✓  [mobile] › tests/search.spec.ts ...
+  ✓  [mobile] › tests/results.spec.ts ...
+  ✓  [mobile] › tests/passenger-validation.spec.ts ...
+  ✓  [mobile] › tests/journey.spec.ts  book and pay, get a confirmation @smoke
+  6 passed
+```
+
+<div class="small" style="margin-top:1rem">Same 6 tests as module 5. Just the journey, on its own:</div>
+
+<StepCommand command="cd qoomlee/app/web && bun run test:e2e --grep @smoke" />
+
+<!--
+SAY: Same tests, same result, far less code in each. Run it after every move in the lab, not just at the end.
+TIME: 2 min.
+NEXT: Your turn.
+-->
+
+---
 layout: lab
 module: 7
 lab: 7

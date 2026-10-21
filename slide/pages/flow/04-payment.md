@@ -138,6 +138,36 @@ NEXT: Lab 4.
 -->
 
 ---
+layout: default
+module: 4
+stepId: m4-run
+---
+
+# Run it
+
+Same spec file as module 3; the happy-path test now pays too:
+
+<StepCommand command="cd qoomlee/app/web && bun run test:e2e 03-passenger" />
+
+```txt
+Running 3 tests using 3 workers
+  ✓  1 [mobile] › tests/03-passenger.spec.ts:13:1 › empty form shows required errors (1.8s)
+  ✓  2 [mobile] › tests/03-passenger.spec.ts:19:1 › email without @ is rejected (1.9s)
+  ✓  3 [mobile] › tests/03-passenger.spec.ts:29:1 › valid passenger details move on to payment and pay (4.2s)
+  3 passed
+```
+
+<div class="small" style="margin-top:1rem">Want to see the card being typed? Add <code>--headed</code>:</div>
+
+<StepCommand command="cd qoomlee/app/web && bun run test:e2e 03-passenger --headed" />
+
+<!--
+SAY: Run it now. The third test is the slow one, it waits for the gateway. The first two are still instant.
+TIME: 2 min.
+NEXT: Lab 4.
+-->
+
+---
 layout: lab
 module: 4
 lab: 4
