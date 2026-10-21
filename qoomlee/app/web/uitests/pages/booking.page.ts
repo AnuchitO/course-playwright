@@ -9,7 +9,7 @@ export class BookingPage {
   }
 
   get firstName() {
-    return this.page.getByPlaceholder("e.g. John");
+    return this.page.getByPlaceholder("First name");
   }
 
   get lastName() {
