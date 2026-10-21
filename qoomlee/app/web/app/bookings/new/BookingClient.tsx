@@ -142,7 +142,7 @@ export default function BookingClient({
             <label className="block text-label-sm text-on-surface-variant px-1">First Name</label>
             <input
               type="text"
-              placeholder="e.g. John"
+              placeholder="First name"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               className={`${inputBase} ${errors.firstName ? "border-error" : "border-outline-variant"}`}

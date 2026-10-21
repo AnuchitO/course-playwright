@@ -34,7 +34,7 @@ const flight: Flight = {
 };
 
 const fillValidForm = () => {
-  fireEvent.change(screen.getByPlaceholderText("e.g. John"), { target: { value: "John" } });
+  fireEvent.change(screen.getByPlaceholderText("First name"), { target: { value: "John" } });
   fireEvent.change(screen.getByPlaceholderText("e.g. Doe"), { target: { value: "Doe" } });
   fireEvent.change(screen.getByPlaceholderText("john.doe@example.com"), {
     target: { value: "john@example.com" },
@@ -89,7 +89,7 @@ describe("BookingClient — passenger form", () => {
 
   it("shows email validation error for an address without @", () => {
     render(<BookingClient flight={flight} passengers={1} />);
-    fireEvent.change(screen.getByPlaceholderText("e.g. John"), { target: { value: "John" } });
+    fireEvent.change(screen.getByPlaceholderText("First name"), { target: { value: "John" } });
     fireEvent.change(screen.getByPlaceholderText("e.g. Doe"), { target: { value: "Doe" } });
     fireEvent.change(screen.getByPlaceholderText("john.doe@example.com"), {
       target: { value: "notanemail" },
