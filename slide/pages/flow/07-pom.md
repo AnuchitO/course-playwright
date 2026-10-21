@@ -639,7 +639,7 @@ Refactor your `my/` tests into `qoomlee/app/web/e2e/tests/my-final/`.
 - [ ] Journey test reads like a user story
 
 ::hint::
-Move one block at a time: cut, paste into a method, call it, run. If red, undo that one move.
+Move one block at a time: cut, paste into a method, call it, run. If red, undo that one move. <br>**Run it:** `cd qoomlee/app/web && bun run test:e2e my-final`
 
 ::recap::
 - **Extract**, don't invent: move lines, keep behaviour

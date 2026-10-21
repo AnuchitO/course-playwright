@@ -186,9 +186,12 @@ NEXT: But look at the code.
 ---
 layout: challenge
 module: 5
+solution: qoomlee/app/web/e2e/pages/PassengerPage.ts (module 7: one Page Object owns the placeholder)
 ---
 
 The placeholder `e.g. John` changes to `First name`. Now fix it in <code>03-passenger.spec.ts</code>, <code>04-full-journey.spec.ts</code> and the next five files you write. Miss one and CI is red.
+
+<div class="small" style="margin-top:1.2rem">Try it: change the placeholder, then run <code>cd qoomlee/app/web && bun run test:e2e</code> and count the red tests.</div>
 
 <!--
 SAY: Look at what we have: the same 4 lines to fill a passenger in two files, the same card lines in the journey, the same results URL in four files. Every UI change touches every file. That is the pain module 7 removes, but first: what do you do when a test goes red?
@@ -217,7 +220,7 @@ Assemble your full journey in `qoomlee/app/web/e2e/tests/my/04-journey.spec.ts`.
 - [ ] Bonus: find the line you would hate to change in 10 files
 
 ::hint::
-Copy the steps from labs 2 to 4 in order. Do not refactor yet; we feel the pain first.
+Copy the steps from labs 2 to 4 in order. Do not refactor yet; we feel the pain first. <br>**Run it:** `cd qoomlee/app/web && bun run test:e2e my/04-journey` <br>`cd qoomlee/app/web && bun run test:e2e --grep @smoke`
 
 ::recap::
 - Assert the **outcome**: heading + reference + passenger

@@ -187,7 +187,7 @@ Extend your Lab 3 happy-path test.
 - [ ] Bonus: pay **without** ticking the terms; what happens?
 
 ::hint::
-The pay button text includes the amount: use the regex `/pay .* securely/i`.
+The pay button text includes the amount: use the regex `/pay .* securely/i`. <br>**Run it:** `cd qoomlee/app/web && bun run test:e2e my/03-passenger` <br>`cd qoomlee/app/web && bun run test:e2e my/03-passenger --headed`
 
 ::recap::
 - Test cards only; never real data in a repo

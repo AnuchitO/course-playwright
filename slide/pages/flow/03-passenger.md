@@ -193,7 +193,7 @@ Create `qoomlee/app/web/e2e/tests/my/03-passenger.spec.ts`.
 - [ ] Bonus: test a phone number with letters
 
 ::hint::
-For test 3, fill the other fields validly and put the bad value only in email. One reason to fail per test.
+For test 3, fill the other fields validly and put the bad value only in email. One reason to fail per test. <br>**Run it:** `cd qoomlee/app/web && bun run test:e2e my/03-passenger`
 
 ::recap::
 - `beforeEach` shares **setup**, not state: each test has a fresh context

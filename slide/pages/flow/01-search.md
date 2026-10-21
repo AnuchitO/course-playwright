@@ -294,7 +294,7 @@ Create `qoomlee/app/web/e2e/tests/my/01-search.spec.ts`.
 - [ ] Bonus: run it for **BKK to HKG**
 
 ::hint::
-Stuck on a locator? `npx playwright codegen --device="iPhone 13" http://localhost:3000/flights` shows what Playwright suggests.
+Stuck on a locator? `npx playwright codegen --device="iPhone 13" http://localhost:3000/flights` shows what Playwright suggests. <br>**Run it:** `cd qoomlee/app/web && bun run test:e2e my/01-search`
 
 ::recap::
 - A test = user steps as code, ending with an `expect`

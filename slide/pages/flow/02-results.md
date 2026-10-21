@@ -214,7 +214,7 @@ Create `qoomlee/app/web/e2e/tests/my/02-results.spec.ts`.
 - [ ] Bonus: assert the price text `4,200`
 
 ::hint::
-`getByText('QM101').first()` is enough: the flight number shows up twice on the card, so strict mode needs `.first()`.
+`getByText('QM101').first()` is enough: the flight number shows up twice on the card, so strict mode needs `.first()`. <br>**Run it:** `cd qoomlee/app/web && bun run test:e2e my/02-results` <br>`cd qoomlee/app/web && SLOW_API=3000 bun run test:e2e my/02-results`
 
 ::recap::
 - The URL is state: **teleport** to a screen instead of clicking there
