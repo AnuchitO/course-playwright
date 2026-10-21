@@ -139,8 +139,9 @@ export default function BookingClient({
 
         <div className="grid grid-cols-2 gap-md">
           <div className="space-y-xs">
-            <label className="block text-label-sm text-on-surface-variant px-1">First Name</label>
+            <label htmlFor="first-name" className="block text-label-sm text-on-surface-variant px-1">First Name</label>
             <input
+              id="first-name"
               type="text"
               placeholder="First name"
               value={firstName}
