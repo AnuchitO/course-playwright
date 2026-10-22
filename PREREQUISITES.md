@@ -136,6 +136,10 @@ The first start downloads a small VM image and takes a few minutes.
 
 1. Download from <https://rancherdesktop.io> and install it (macOS: pick **Apple Silicon** or **Intel** to match your Mac; Windows: accept **WSL 2**).
 2. On first launch choose **dockerd (moby)** as the container engine. Do **not** pick *containerd*: it has no `docker` command. You can change it later in **Preferences → Container Engine**. Leave Kubernetes off, you don't need it.
+
+   ![Rancher Desktop → Preferences → Container Engine with dockerd (moby) selected](docs/prerequisites/06-rancher-container-engine.png)
+
+   _Screenshot from the [Rancher Desktop docs](https://docs.rancherdesktop.io/ui/preferences/container-engine/general/) (SUSE). Windows and Linux look the same, apart from the window frame._
 3. Wait until the status at the bottom of the window shows it is running.
 4. Open a **new** terminal so `docker` is on your PATH.
 
