@@ -32,23 +32,27 @@ The app takes card payments through [Omise](https://www.omise.co). We only use *
 
 **✅ Done when:** you can sign in and see the Omise dashboard.
 
-### 1.2 Switch to Test mode
+### 1.2 Make sure you are in Test mode
 
-At the top of the dashboard there is a **Test / Live** switch. Make sure it is on **Test** (the dashboard shows a test-mode banner/colour).
+A new account opens in **Test mode**. You can tell by the yellow banner at the top of the dashboard: *"You are in test mode. No actual payment is made in this mode"*. The sidebar button says **Switch to live mode**, which means you are currently in test mode. **Do not click it.**
 
-> 📸 _Screenshot to add: Test/Live toggle set to Test_ (`docs/prerequisites/02-omise-test-mode.png`)
+![Dashboard in test mode](docs/prerequisites/02-omise-test-mode.jpg)
 
-**✅ Done when:** the dashboard clearly says you are in **Test** mode.
+**✅ Done when:** the yellow test-mode banner is visible.
 
 ### 1.3 Copy your test keys
 
-1. Open <https://dashboard.omise.co/test/api-keys> (or **Settings → Keys** while in Test mode).
-2. You'll see two keys:
-   - **Public key**: starts with `pkey_test_`
-   - **Secret key**: starts with `skey_test_` (click to reveal/copy)
-3. Paste both into a scratch note for now. You need them in [step 4](#4-create-your-env-files).
+1. In the left sidebar click **Settings**, then the **Keys** tab.
+2. Omise asks you to confirm you understand the keys are for testing only. Tick both boxes and click **Show keys**.
 
-> 📸 _Screenshot to add: API keys page (blur the keys)_ (`docs/prerequisites/03-omise-api-keys.png`)
+   ![Show keys confirmation](docs/prerequisites/03a-omise-show-keys.jpg)
+
+3. You'll see two keys. Use the copy icon next to each:
+   - **Public key**: starts with `pkey_test_`
+   - **Secret key**: starts with `skey_test_`
+4. Paste both into a scratch note for now. You need them in [step 4](#4-create-your-env-files).
+
+![API keys page (values blurred)](docs/prerequisites/03-omise-api-keys.jpg)
 
 **✅ Done when:** you have two strings: one starting `pkey_test_`, one starting `skey_test_`.
 
