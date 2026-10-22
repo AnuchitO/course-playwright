@@ -67,7 +67,7 @@ A new account opens in **Test mode**. You can tell by the yellow banner at the t
 |------|---------------|----------------|
 | Node.js | Runs Playwright's CLI and tooling | 20 or newer (LTS recommended) |
 | Bun | Installs packages and runs the web app (`bun install`, `bun run dev`) | any recent 1.x |
-| Docker Desktop | Runs the Postgres databases and backend services | Docker Compose v2 (`docker compose`, not `docker-compose`) |
+| Colima or Rancher Desktop | Runs the Postgres databases and backend services (no Docker Desktop licence needed) | `docker` CLI with Compose v2 (`docker compose`, not `docker-compose`) |
 
 ### 2.1 Node.js
 
@@ -97,13 +97,61 @@ $ bun --version
 
 **✅ Done when:** it prints a version such as `1.2.x`.
 
-### 2.3 Docker Desktop
+### 2.3 A container runtime (Colima or Rancher Desktop)
 
-1. Download from <https://www.docker.com/products/docker-desktop> and install it.
-   - macOS: pick **Apple Silicon** or **Intel** to match your Mac (Apple menu → About This Mac).
-   - Windows: accept the **WSL 2** option if the installer offers it; restart if asked.
-2. **Start Docker Desktop** and wait until the whale icon says it is running (the bottom-left status in the app turns green).
-3. Check it from a terminal:
+We avoid Docker Desktop because it needs a paid licence at most companies. Both options below are free and open source, and both give you the same `docker` and `docker compose` commands the course uses. **Pick one:**
+
+| Your machine | Use |
+|--------------|-----|
+| macOS | **Colima** (terminal only, light) or **Rancher Desktop** (has a GUI) |
+| Windows | **Rancher Desktop** (with WSL 2) |
+| Linux | **Rancher Desktop**, or Docker Engine from your distro's package manager |
+
+#### Option A: Colima (macOS)
+
+```bash
+$ brew install colima docker docker-compose
+$ mkdir -p ~/.docker
+```
+
+Tell the `docker` CLI where to find the Compose plugin: open `~/.docker/config.json` (create it if missing) and make sure it contains:
+
+```json
+{
+  "cliPluginsExtraDirs": ["/opt/homebrew/lib/docker/cli-plugins"]
+}
+```
+
+(Intel Macs: use `/usr/local/lib/docker/cli-plugins`. Merge with any existing content instead of replacing it.)
+
+Start the runtime with enough resources for the course:
+
+```bash
+$ colima start --cpu 2 --memory 4 --disk 20
+```
+
+The first start downloads a small VM image and takes a few minutes.
+
+#### Option B: Rancher Desktop (macOS / Windows / Linux)
+
+1. Download from <https://rancherdesktop.io> and install it (macOS: pick **Apple Silicon** or **Intel** to match your Mac; Windows: accept **WSL 2**).
+2. On first launch choose **dockerd (moby)** as the container engine. Do **not** pick *containerd*: it has no `docker` command. You can change it later in **Preferences → Container Engine**. Leave Kubernetes off, you don't need it.
+3. Wait until the status at the bottom of the window shows it is running.
+4. Open a **new** terminal so `docker` is on your PATH.
+
+#### Start it (do this every time before the course, and after every reboot)
+
+The runtime does not start by itself. If it isn't running, every `docker` command fails.
+
+| | Colima | Rancher Desktop |
+|---|---|---|
+| **Start** | `colima start` | Open the **Rancher Desktop** app and wait until it says it is running |
+| **Is it running?** | `colima status` should say `colima is running` | Status at the bottom of the window shows running |
+| **Stop** (to free RAM) | `colima stop` | Quit the app |
+
+Your first `colima start` remembers the `--cpu 2 --memory 4 --disk 20` settings, so afterwards plain `colima start` is enough.
+
+#### Check it works (either option)
 
 ```bash
 $ docker --version
@@ -111,11 +159,9 @@ $ docker compose version
 $ docker run --rm hello-world
 ```
 
-**✅ Done when:** the last command prints `Hello from Docker!`.
+**✅ Done when:** `docker compose version` prints `v2.x` and the last command prints `Hello from Docker!`.
 
-> 📸 _Screenshot to add: Docker Desktop showing "running"_ (`docs/prerequisites/04-docker-running.png`)
-
-> If `docker run` says *"Cannot connect to the Docker daemon"*, Docker Desktop isn't running yet. Open it and wait a minute.
+> If `docker run` says *"Cannot connect to the Docker daemon"*, the runtime isn't running yet. Run `colima start` (Colima) or open Rancher Desktop and wait a minute.
 
 ---
 
@@ -232,7 +278,7 @@ $ cd ../..
 
 ### 5.3 Start the backend
 
-Docker Desktop must be running.
+Your container runtime must be running: `colima status` (Colima) or the Rancher Desktop app. If it isn't, start it as shown in [2.3](#23-a-container-runtime-colima-or-rancher-desktop).
 
 ```bash
 $ make up
@@ -293,13 +339,14 @@ To stop everything afterwards: `Ctrl+C` in the web terminal, then `make down`.
 | Symptom | Fix |
 |---------|-----|
 | `command not found: node / bun` right after installing | Close the terminal and open a new one so the PATH refreshes. |
-| `Cannot connect to the Docker daemon` | Start Docker Desktop and wait until it reports running. |
+| `Cannot connect to the Docker daemon` | Start the runtime: `colima start`, or open Rancher Desktop and wait until it reports running. |
+| `docker: 'compose' is not a docker command` | Colima: redo the `cliPluginsExtraDirs` step in 2.3. Rancher Desktop: switch the engine to **dockerd (moby)**. |
 | `make up` fails with `port is already allocated` (9933, 9934, 9984, 9988) | Another program uses the port. Stop it, or run `docker ps` to find an old container and `docker compose down`. |
 | `make up` warns `OMISE_PUBLIC_KEY variable is not set` | `.env` is missing or in the wrong folder. It must be `qoomlee/.env`, next to `docker-compose.yml`. |
 | Payment step fails with an Omise authentication error | A key was copied wrong or from **Live** mode. Re-copy both from the **Test** keys page and run `make reset`. |
 | Changed `.env` but nothing changed | Re-run `make up` (backend). For `app/web/.env.local`, stop and restart `make web`. |
 | `make: command not found` (Windows) | Use WSL2, or run the equivalent: `make up` → `docker compose up -d --build --wait`; `make web` → `cd app/web && bun run dev`; `make test-ui` → `cd app/web && bun run test:ui`; `make test-e2e` → `cd app/web && bun run test:e2e`. |
-| `make up` is very slow or Docker is killed | Give Docker Desktop at least 4 GB RAM (Settings → Resources) and keep ~5 GB of disk free. |
+| `make up` is very slow or containers are killed | Give the runtime at least 4 GB RAM and keep ~5 GB of disk free: `colima stop && colima start --cpu 2 --memory 4`, or Rancher Desktop → Preferences → Virtual Machine. |
 | Port 3000 is already in use | Stop the other program using it (the tests expect exactly `http://localhost:3000`). |
 | `make test-e2e` fails but `make test-ui` passes | The backend isn't healthy or the Omise keys are wrong. Run `make status`, redo the key check in 4.1, then `make reset`. |
 | Playwright says a browser executable doesn't exist | Run `bunx playwright install chromium` inside `app/web`. |
